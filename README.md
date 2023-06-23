@@ -27,12 +27,20 @@ If you'd rather compile on your own, `gradlew server:dist`.
 * None tag means not game change.
 
 ### Features
-- [*] S: update TypeIO.writeRequest, not write config
-- [*] API: add SendPacketEvent
-- [*] S: Add icons.properties,bundles,block_colors.png to server build
-- [*] S: Load icons,locales in server launcher
-- [ ] API: add DamageSource and DamageEvent
-- [ ] C: bind `usid` to hostname rather than ip
-- ~~[*] API: add DropDownEvent~~ (Merge to master as `PayloadDropEvent`)
-- ~~[ ] S: ipForward support~~ (consider remove)
-- ~~[ ] SO: new GameRule, core resource isolation~~ (consider remove)
+See `./patches/`.
+
+## Contribution
+### checkout
+```shell
+cd base
+git tag -f base
+git am ../patches/*
+# work in base/
+```
+### update
+```shell
+cd base
+git format-patch -o ../patches base --
+cd ../ && git add patches/
+git commit
+```

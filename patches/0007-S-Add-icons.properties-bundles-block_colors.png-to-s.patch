@@ -1,0 +1,62 @@
+From 13760c94f65a6636895361256065f6c124b2c451 Mon Sep 17 00:00:00 2001
+From: way-zer <himc.wicp@gmail.com>
+Date: Fri, 23 Jun 2023 16:20:01 +0800
+Subject: [PATCH 07/12] S: Add icons.properties,bundles,block_colors.png to
+ server build
+
+---
+ server/build.gradle                           | 24 +++++++++----------
+ .../src/mindustry/server/ServerLauncher.java  |  2 +-
+ 2 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/server/build.gradle b/server/build.gradle
+index 7359fda..8a35079 100644
+--- a/server/build.gradle
++++ b/server/build.gradle
+@@ -34,18 +34,18 @@ task dist(type: Jar, dependsOn: configurations.runtimeClasspath){
+     from files(sourceSets.main.output.classesDirs)
+     from files(sourceSets.main.output.resourcesDir)
+     from {configurations.runtimeClasspath.collect{ it.isDirectory() ? it : zipTree(it) }}
+-    from files(project.assetsDir)
+-    exclude("sprites/**")
+-    exclude("music/**")
+-    exclude("sounds/**")
+-    exclude("fonts/**")
+-    exclude("bundles/**")
+-    exclude("cubemaps/**")
+-    exclude("cursors/**")
+-    exclude("shaders/**")
+-    exclude("icons/icon.icns")
+-    exclude("icons/icon.ico")
+-    exclude("icons/icon_64.png")
++    from (files(project.assetsDir)){
++        include "baseparts/**"
++        include "bundles/**"
++        include "icons/icons.properties"
++        include "maps/**"
++        include "scripts/**"
++        include "sprites/block_colors.png"
++        include "basepartnames"
++        include "contrubutors"
++        include "locales"
++        include "*.*"
++    }
+ 
+     manifest{
+         attributes 'Main-Class': project.mainClassName
+diff --git a/server/src/mindustry/server/ServerLauncher.java b/server/src/mindustry/server/ServerLauncher.java
+index 1aea11b..167be58 100644
+--- a/server/src/mindustry/server/ServerLauncher.java
++++ b/server/src/mindustry/server/ServerLauncher.java
+@@ -41,7 +41,7 @@ public class ServerLauncher implements ApplicationListener{
+     @Override
+     public void init(){
+         Core.settings.setDataDirectory(Core.files.local("config"));
+-        loadLocales = false;
++//        loadLocales = false;
+         headless = true;
+ 
+         Vars.loadSettings();
+-- 
+2.40.1.windows.1
+

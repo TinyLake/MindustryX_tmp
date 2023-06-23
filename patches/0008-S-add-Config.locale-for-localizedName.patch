@@ -1,0 +1,24 @@
+From abe21118aab391fc6f8ee73d1a3b97d02a25a68d Mon Sep 17 00:00:00 2001
+From: way-zer <himc.wicp@gmail.com>
+Date: Fri, 23 Jun 2023 16:20:12 +0800
+Subject: [PATCH 08/12] S: add `Config.locale` for localizedName
+
+---
+ core/src/mindustry/net/Administration.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/core/src/mindustry/net/Administration.java b/core/src/mindustry/net/Administration.java
+index 4d68060..f152261 100644
+--- a/core/src/mindustry/net/Administration.java
++++ b/core/src/mindustry/net/Administration.java
+@@ -487,6 +487,7 @@ public class Administration{
+         serverName = new Config("name", "The server name as displayed on clients.", "Server", "servername"),
+         desc = new Config("desc", "The server description, displayed under the name. Max 100 characters.", "off"),
+         port = new Config("port", "The port to host on.", Vars.port),
++        locale = new Config("locale", "The locale for localizedName.", "default", "locale"),
+         autoUpdate = new Config("autoUpdate", "Whether to auto-update and exit when a new bleeding-edge update arrives.", false),
+         showConnectMessages = new Config("showConnectMessages", "Whether to display connect/disconnect messages.", true),
+         enableVotekick = new Config("enableVotekick", "Whether votekick is enabled.", true),
+-- 
+2.40.1.windows.1
+

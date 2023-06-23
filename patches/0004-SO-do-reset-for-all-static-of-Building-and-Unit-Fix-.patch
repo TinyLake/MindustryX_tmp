@@ -1,0 +1,479 @@
+From 2e19f57830fe5a3c061b76f2e7a7e16c75191e9a Mon Sep 17 00:00:00 2001
+From: way-zer <himc.wicp@gmail.com>
+Date: Sun, 18 Dec 2022 23:15:40 +0800
+Subject: [PATCH 04/12] SO: do reset for all `static` of `Building` and `Unit`
+ Fix #3
+
+---
+ core/src/mindustry/ai/types/CargoAI.java               |  8 ++++++++
+ core/src/mindustry/entities/Damage.java                | 10 ++++++++++
+ core/src/mindustry/entities/Units.java                 |  8 ++++++++
+ .../entities/abilities/ForceFieldAbility.java          |  8 ++++++++
+ .../mindustry/entities/abilities/ShieldArcAbility.java |  7 +++++++
+ .../src/mindustry/entities/bullet/PointBulletType.java |  8 ++++++++
+ core/src/mindustry/entities/comp/PuddleComp.java       |  7 +++++++
+ core/src/mindustry/logic/LExecutor.java                |  6 ++++++
+ core/src/mindustry/world/blocks/defense/AutoDoor.java  |  7 +++++++
+ .../src/mindustry/world/blocks/defense/BaseShield.java |  8 ++++++++
+ .../blocks/defense/DirectionalForceProjector.java      |  8 ++++++++
+ core/src/mindustry/world/blocks/defense/Door.java      |  7 +++++++
+ .../mindustry/world/blocks/defense/ForceProjector.java |  6 ++++++
+ .../world/blocks/distribution/DirectionBridge.java     |  7 +++++++
+ .../world/blocks/distribution/ItemBridge.java          |  7 +++++++
+ core/src/mindustry/world/blocks/power/PowerNode.java   |  6 ++++++
+ 16 files changed, 118 insertions(+)
+
+diff --git a/core/src/mindustry/ai/types/CargoAI.java b/core/src/mindustry/ai/types/CargoAI.java
+index 8fb522e..92b4346 100644
+--- a/core/src/mindustry/ai/types/CargoAI.java
++++ b/core/src/mindustry/ai/types/CargoAI.java
+@@ -1,9 +1,11 @@
+ package mindustry.ai.types;
+ 
++import arc.*;
+ import arc.struct.*;
+ import arc.util.*;
+ import mindustry.*;
+ import mindustry.entities.units.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.type.*;
+ import mindustry.world.blocks.units.UnitCargoUnloadPoint.*;
+@@ -15,6 +17,12 @@ public class CargoAI extends AIController{
+     static Seq<Item> orderedItems = new Seq<>();
+     static Seq<UnitCargoUnloadPointBuild> targets = new Seq<>();
+ 
++    static{
++        Events.on(ResetEvent.class, event -> {
++            targets.clear();
++        });
++    }
++
+     public static float emptyWaitTime = 60f * 2f, dropSpacing = 60f * 1.5f;
+     public static float transferRange = 20f, moveRange = 6f, moveSmoothing = 20f;
+ 
+diff --git a/core/src/mindustry/entities/Damage.java b/core/src/mindustry/entities/Damage.java
+index 5c83b1a..b2fcfd4 100644
+--- a/core/src/mindustry/entities/Damage.java
++++ b/core/src/mindustry/entities/Damage.java
+@@ -37,6 +37,16 @@ public class Damage{
+     private static Building tmpBuilding;
+     private static Unit tmpUnit;
+ 
++    static{
++        Events.on(ResetEvent.class, event -> {
++            units.clear();
++            builds.clear();
++            furthest = null;
++            tmpBuilding = null;
++            tmpUnit = null;
++        });
++    }
++
+     public static void applySuppression(Team team, float x, float y, float range, float reload, float maxDelay, float applyParticleChance, @Nullable Position source){
+         builds.clear();
+         indexer.eachBlock(null, x, y, range, build -> build.team != team, build -> {
+diff --git a/core/src/mindustry/entities/Units.java b/core/src/mindustry/entities/Units.java
+index 1a5d024..4e01d16 100644
+--- a/core/src/mindustry/entities/Units.java
++++ b/core/src/mindustry/entities/Units.java
+@@ -8,6 +8,7 @@ import arc.util.*;
+ import mindustry.annotations.Annotations.*;
+ import mindustry.content.*;
+ import mindustry.game.*;
++import mindustry.game.EventType.*;
+ import mindustry.game.Teams.*;
+ import mindustry.gen.*;
+ import mindustry.type.*;
+@@ -24,6 +25,13 @@ public class Units{
+     private static int intResult;
+     private static Building buildResult;
+ 
++    static{
++        Events.on(ResetEvent.class, event -> {
++            result = null;
++            buildResult = null;
++        });
++    }
++
+     //prevents allocations in anyEntities
+     private static boolean anyEntityGround;
+     private static float aeX, aeY, aeW, aeH;
+diff --git a/core/src/mindustry/entities/abilities/ForceFieldAbility.java b/core/src/mindustry/entities/abilities/ForceFieldAbility.java
+index 4c0ff99..125c764 100644
+--- a/core/src/mindustry/entities/abilities/ForceFieldAbility.java
++++ b/core/src/mindustry/entities/abilities/ForceFieldAbility.java
+@@ -1,5 +1,6 @@
+ package mindustry.entities.abilities;
+ 
++import arc.*;
+ import arc.func.*;
+ import arc.graphics.*;
+ import arc.graphics.g2d.*;
+@@ -9,6 +10,7 @@ import arc.scene.ui.layout.*;
+ import arc.util.*;
+ import mindustry.*;
+ import mindustry.content.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.graphics.*;
+ import mindustry.ui.*;
+@@ -33,6 +35,12 @@ public class ForceFieldAbility extends Ability{
+     private static float realRad;
+     private static Unit paramUnit;
+     private static ForceFieldAbility paramField;
++    static{
++        Events.on(ResetEvent.class, event -> {
++            paramUnit = null;
++            paramField = null;
++        });
++    }
+     private static final Cons<Bullet> shieldConsumer = trait -> {
+         if(trait.team != paramUnit.team && trait.type.absorbable && Intersector.isInRegularPolygon(paramField.sides, paramUnit.x, paramUnit.y, realRad, paramField.rotation, trait.x(), trait.y()) && paramUnit.shield > 0){
+             trait.absorb();
+diff --git a/core/src/mindustry/entities/abilities/ShieldArcAbility.java b/core/src/mindustry/entities/abilities/ShieldArcAbility.java
+index 9e9f570..0696cbb 100644
+--- a/core/src/mindustry/entities/abilities/ShieldArcAbility.java
++++ b/core/src/mindustry/entities/abilities/ShieldArcAbility.java
+@@ -1,5 +1,6 @@
+ package mindustry.entities.abilities;
+ 
++import arc.*;
+ import arc.func.*;
+ import arc.graphics.*;
+ import arc.graphics.g2d.*;
+@@ -9,6 +10,7 @@ import arc.scene.ui.layout.*;
+ import arc.util.*;
+ import mindustry.*;
+ import mindustry.content.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.graphics.*;
+ import mindustry.type.*;
+@@ -17,6 +19,11 @@ import mindustry.ui.*;
+ public class ShieldArcAbility extends Ability{
+     private static Unit paramUnit;
+     private static ShieldArcAbility paramField;
++    static{
++        Events.on(ResetEvent.class, event -> {
++            paramField = null;
++        });
++    }
+     private static Vec2 paramPos = new Vec2();
+     private static final Cons<Bullet> shieldConsumer = b -> {
+         if(b.team != paramUnit.team && b.type.absorbable && paramField.data > 0 &&
+diff --git a/core/src/mindustry/entities/bullet/PointBulletType.java b/core/src/mindustry/entities/bullet/PointBulletType.java
+index 8bd5f4a..b6c1afa 100644
+--- a/core/src/mindustry/entities/bullet/PointBulletType.java
++++ b/core/src/mindustry/entities/bullet/PointBulletType.java
+@@ -1,15 +1,23 @@
+ package mindustry.entities.bullet;
+ 
++import arc.*;
+ import arc.math.geom.*;
+ import arc.util.*;
+ import mindustry.*;
+ import mindustry.entities.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ 
+ public class PointBulletType extends BulletType{
+      private static float cdist = 0f;
+      private static Unit result;
+ 
++    static{
++        Events.on(ResetEvent.class, event -> {
++            result = null;
++        });
++    }
++
+      public float trailSpacing = 10f;
+ 
+      public PointBulletType(){
+diff --git a/core/src/mindustry/entities/comp/PuddleComp.java b/core/src/mindustry/entities/comp/PuddleComp.java
+index 090a881..800fa76 100644
+--- a/core/src/mindustry/entities/comp/PuddleComp.java
++++ b/core/src/mindustry/entities/comp/PuddleComp.java
+@@ -1,5 +1,6 @@
+ package mindustry.entities.comp;
+ 
++import arc.*;
+ import arc.func.*;
+ import arc.graphics.g2d.*;
+ import arc.math.*;
+@@ -8,6 +9,7 @@ import arc.util.*;
+ import mindustry.annotations.Annotations.*;
+ import mindustry.content.*;
+ import mindustry.entities.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.graphics.*;
+ import mindustry.type.*;
+@@ -22,6 +24,11 @@ abstract class PuddleComp implements Posc, Puddlec, Drawc, Syncc{
+     private static final Rect rect = new Rect(), rect2 = new Rect();
+ 
+     private static Puddle paramPuddle;
++    static{
++        Events.on(ResetEvent.class, event -> {
++            paramPuddle = null;
++        });
++    }
+     private static Cons<Unit> unitCons = unit -> {
+         if(unit.isGrounded() && !unit.hovering){
+             unit.hitbox(rect2);
+diff --git a/core/src/mindustry/logic/LExecutor.java b/core/src/mindustry/logic/LExecutor.java
+index d4b788d..192490b 100644
+--- a/core/src/mindustry/logic/LExecutor.java
++++ b/core/src/mindustry/logic/LExecutor.java
+@@ -14,6 +14,7 @@ import mindustry.core.*;
+ import mindustry.ctype.*;
+ import mindustry.entities.*;
+ import mindustry.game.*;
++import mindustry.game.EventType.*;
+ import mindustry.game.Teams.*;
+ import mindustry.gen.*;
+ import mindustry.type.*;
+@@ -739,6 +740,11 @@ public class LExecutor{
+ 
+         static float bestValue = 0f;
+         static Unit best = null;
++        static{
++            Events.on(ResetEvent.class, event -> {
++                best = null;
++            });
++        }
+ 
+         public RadarI(RadarTarget target1, RadarTarget target2, RadarTarget target3, RadarSort sort, int radar, int sortOrder, int output){
+             this.target1 = target1;
+diff --git a/core/src/mindustry/world/blocks/defense/AutoDoor.java b/core/src/mindustry/world/blocks/defense/AutoDoor.java
+index a1cfb08..8c95867 100644
+--- a/core/src/mindustry/world/blocks/defense/AutoDoor.java
++++ b/core/src/mindustry/world/blocks/defense/AutoDoor.java
+@@ -1,5 +1,6 @@
+ package mindustry.world.blocks.defense;
+ 
++import arc.*;
+ import arc.audio.*;
+ import arc.func.*;
+ import arc.graphics.g2d.*;
+@@ -10,6 +11,7 @@ import arc.util.io.*;
+ import mindustry.annotations.Annotations.*;
+ import mindustry.content.*;
+ import mindustry.entities.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.logic.*;
+ import mindustry.world.*;
+@@ -19,6 +21,11 @@ import static mindustry.Vars.*;
+ public class AutoDoor extends Wall{
+     protected final static Rect rect = new Rect();
+     protected final static Seq<Unit> units = new Seq<>();
++    static{
++        Events.on(ResetEvent.class, event -> {
++            units.clear();
++        });
++    }
+     protected final static Boolf<Unit> groundCheck = u -> u.isGrounded() && !u.type.allowLegStep;
+ 
+     public final int timerToggle = timers++;
+diff --git a/core/src/mindustry/world/blocks/defense/BaseShield.java b/core/src/mindustry/world/blocks/defense/BaseShield.java
+index 32bc077..b6c57d5 100644
+--- a/core/src/mindustry/world/blocks/defense/BaseShield.java
++++ b/core/src/mindustry/world/blocks/defense/BaseShield.java
+@@ -1,5 +1,6 @@
+ package mindustry.world.blocks.defense;
+ 
++import arc.*;
+ import arc.func.*;
+ import arc.graphics.*;
+ import arc.graphics.g2d.*;
+@@ -9,6 +10,7 @@ import arc.util.io.*;
+ import mindustry.content.*;
+ import mindustry.entities.*;
+ import mindustry.game.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.graphics.*;
+ import mindustry.world.*;
+@@ -21,6 +23,12 @@ public class BaseShield extends Block{
+     public int sides = 24;
+ 
+     protected static BaseShieldBuild paramBuild;
++
++    static{
++        Events.on(ResetEvent.class, event -> {
++            paramBuild = null;
++        });
++    }
+     //protected static Effect paramEffect;
+     protected static final Cons<Bullet> bulletConsumer = bullet -> {
+         if(bullet.team != paramBuild.team && bullet.type.absorbable && bullet.within(paramBuild, paramBuild.radius())){
+diff --git a/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java b/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java
+index 43548a6..4be828b 100644
+--- a/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java
++++ b/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java
+@@ -1,5 +1,6 @@
+ package mindustry.world.blocks.defense;
+ 
++import arc.*;
+ import arc.func.*;
+ import arc.graphics.*;
+ import arc.graphics.g2d.*;
+@@ -9,6 +10,7 @@ import arc.util.*;
+ import mindustry.annotations.Annotations.*;
+ import mindustry.content.*;
+ import mindustry.entities.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.graphics.*;
+ import mindustry.ui.*;
+@@ -25,6 +27,12 @@ public class DirectionalForceProjector extends Block{
+     protected static final Vec2 intersectOut = new Vec2(), p1 = new Vec2(), p2 = new Vec2();
+     protected static DirectionalForceProjectorBuild paramEntity;
+     protected static Effect paramEffect;
++    static{
++        Events.on(ResetEvent.class, event -> {
++            paramEntity = null;
++            paramEffect = null;
++        });
++    }
+     protected static final Cons<Bullet> dirShieldConsumer = b -> {
+         if(b.team != paramEntity.team && b.type.absorbable){
+             //just in case
+diff --git a/core/src/mindustry/world/blocks/defense/Door.java b/core/src/mindustry/world/blocks/defense/Door.java
+index 3fa4732..ea77a05 100644
+--- a/core/src/mindustry/world/blocks/defense/Door.java
++++ b/core/src/mindustry/world/blocks/defense/Door.java
+@@ -1,5 +1,6 @@
+ package mindustry.world.blocks.defense;
+ 
++import arc.*;
+ import arc.Graphics.*;
+ import arc.Graphics.Cursor.*;
+ import arc.audio.*;
+@@ -13,6 +14,7 @@ import mindustry.annotations.Annotations.*;
+ import mindustry.content.*;
+ import mindustry.entities.*;
+ import mindustry.entities.units.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.logic.*;
+ 
+@@ -21,6 +23,11 @@ import static mindustry.Vars.*;
+ public class Door extends Wall{
+     protected final static Rect rect = new Rect();
+     protected final static Queue<DoorBuild> doorQueue = new Queue<>();
++    static{
++        Events.on(ResetEvent.class, event -> {
++            doorQueue.clear();
++        });
++    }
+ 
+     public final int timerToggle = timers++;
+     public Effect openfx = Fx.dooropen;
+diff --git a/core/src/mindustry/world/blocks/defense/ForceProjector.java b/core/src/mindustry/world/blocks/defense/ForceProjector.java
+index 1ef9e02..179f192 100644
+--- a/core/src/mindustry/world/blocks/defense/ForceProjector.java
++++ b/core/src/mindustry/world/blocks/defense/ForceProjector.java
+@@ -47,6 +47,12 @@ public class ForceProjector extends Block{
+ 
+     protected static ForceBuild paramEntity;
+     protected static Effect paramEffect;
++    static{
++        Events.on(ResetEvent.class, event -> {
++            paramEntity = null;
++            paramEffect = null;
++        });
++    }
+     protected static final Cons<Bullet> shieldConsumer = bullet -> {
+         if(bullet.team != paramEntity.team && bullet.type.absorbable && Intersector.isInRegularPolygon(((ForceProjector)(paramEntity.block)).sides, paramEntity.x, paramEntity.y, paramEntity.realRadius(), ((ForceProjector)(paramEntity.block)).shieldRotation, bullet.x, bullet.y)){
+             bullet.absorb();
+diff --git a/core/src/mindustry/world/blocks/distribution/DirectionBridge.java b/core/src/mindustry/world/blocks/distribution/DirectionBridge.java
+index 581cd67..cb2bf03 100644
+--- a/core/src/mindustry/world/blocks/distribution/DirectionBridge.java
++++ b/core/src/mindustry/world/blocks/distribution/DirectionBridge.java
+@@ -1,5 +1,6 @@
+ package mindustry.world.blocks.distribution;
+ 
++import arc.*;
+ import arc.graphics.*;
+ import arc.graphics.g2d.*;
+ import arc.math.*;
+@@ -10,6 +11,7 @@ import mindustry.annotations.Annotations.*;
+ import mindustry.core.*;
+ import mindustry.entities.*;
+ import mindustry.entities.units.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.graphics.*;
+ import mindustry.input.*;
+@@ -20,6 +22,11 @@ import static mindustry.Vars.*;
+ 
+ public class DirectionBridge extends Block{
+     private static BuildPlan otherReq;
++    static{
++        Events.on(ResetEvent.class, event -> {
++            otherReq = null;
++        });
++    }
+     private int otherDst = 0;
+ 
+     public @Load("@-bridge") TextureRegion bridgeRegion;
+diff --git a/core/src/mindustry/world/blocks/distribution/ItemBridge.java b/core/src/mindustry/world/blocks/distribution/ItemBridge.java
+index beb3e79..f501aa1 100644
+--- a/core/src/mindustry/world/blocks/distribution/ItemBridge.java
++++ b/core/src/mindustry/world/blocks/distribution/ItemBridge.java
+@@ -1,5 +1,6 @@
+ package mindustry.world.blocks.distribution;
+ 
++import arc.*;
+ import arc.graphics.*;
+ import arc.graphics.g2d.*;
+ import arc.math.*;
+@@ -11,6 +12,7 @@ import mindustry.annotations.Annotations.*;
+ import mindustry.core.*;
+ import mindustry.entities.*;
+ import mindustry.entities.units.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.graphics.*;
+ import mindustry.input.*;
+@@ -22,6 +24,11 @@ import static mindustry.Vars.*;
+ 
+ public class ItemBridge extends Block{
+     private static BuildPlan otherReq;
++    static{
++        Events.on(ResetEvent.class, event -> {
++            otherReq = null;
++        });
++    }
+ 
+     public final int timerCheckMoved = timers ++;
+ 
+diff --git a/core/src/mindustry/world/blocks/power/PowerNode.java b/core/src/mindustry/world/blocks/power/PowerNode.java
+index c543a58..bbd8d20 100644
+--- a/core/src/mindustry/world/blocks/power/PowerNode.java
++++ b/core/src/mindustry/world/blocks/power/PowerNode.java
+@@ -12,6 +12,7 @@ import mindustry.annotations.Annotations.*;
+ import mindustry.core.*;
+ import mindustry.entities.units.*;
+ import mindustry.game.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.graphics.*;
+ import mindustry.input.*;
+@@ -24,6 +25,11 @@ import static mindustry.Vars.*;
+ 
+ public class PowerNode extends PowerBlock{
+     protected static BuildPlan otherReq;
++    static{
++        Events.on(ResetEvent.class, event -> {
++            otherReq = null;
++        });
++    }
+     protected static int returnInt = 0;
+     protected final static ObjectSet<PowerGraph> graphs = new ObjectSet<>();
+     /** The maximum range of all power nodes on the map */
+-- 
+2.40.1.windows.1
+

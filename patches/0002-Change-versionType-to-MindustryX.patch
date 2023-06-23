@@ -1,0 +1,54 @@
+From 6f7d272bf91b24fc06b7c22ff438cd2fd16716a9 Mon Sep 17 00:00:00 2001
+From: way-zer <himc.wicp@gmail.com>
+Date: Fri, 23 Jun 2023 16:11:58 +0800
+Subject: [PATCH 02/12] Change versionType to `MindustryX`
+
+---
+ build.gradle                           |  4 ++--
+ core/src/mindustry/core/NetServer.java | 11 ++++++++---
+ 2 files changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/build.gradle b/build.gradle
+index 0c774d0..21fc48c 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -30,12 +30,12 @@ allprojects{
+     apply plugin: 'maven-publish'
+     
+     version = project.hasProperty("packageVersion") ? project.getProperty("packageVersion") : 'release'
+-    group = 'com.github.Anuken'
++    group = 'cf.wayzer.MindustryX'
+ 
+     ext{
+         versionNumber = '7'
+         if(!project.hasProperty("versionModifier")) versionModifier = 'release'
+-        if(!project.hasProperty("versionType")) versionType = 'official'
++        if(!project.hasProperty("versionType")) versionType = 'MindustryX'
+         appName = 'Mindustry'
+         steamworksVersion = '0b86023401880bb5e586bc404bedbaae9b1f1c94'
+         rhinoVersion = '73a812444ac388ac2d94013b5cadc8f70b7ea027'
+diff --git a/core/src/mindustry/core/NetServer.java b/core/src/mindustry/core/NetServer.java
+index 2fb5de2..2ecbe63 100644
+--- a/core/src/mindustry/core/NetServer.java
++++ b/core/src/mindustry/core/NetServer.java
+@@ -199,9 +199,14 @@ public class NetServer implements ApplicationListener{
+                 return;
+             }
+ 
+-            if(packet.versionType == null || ((packet.version == -1 || !packet.versionType.equals(Version.type)) && Version.build != -1 && !admins.allowsCustomClients())){
+-                con.kick(!Version.type.equals(packet.versionType) ? KickReason.typeMismatch : KickReason.customClient);
+-                return;
++            if(Version.build != -1 && !admins.allowsCustomClients()){
++                if(packet.versionType == null || packet.version == -1){
++                    con.kick(KickReason.customClient);
++                    return;
++                }else if((!Version.type.equals("MindustryX") || !"official".equals(packet.versionType)) && !Version.type.equals(packet.versionType)){
++                    con.kick(KickReason.typeMismatch);
++                    return;
++                }
+             }
+ 
+             boolean preventDuplicates = headless && netServer.admins.isStrict();
+-- 
+2.40.1.windows.1
+

@@ -1,0 +1,63 @@
+From 6e99002b5be04de21c9046244d0f41cf82bdae3b Mon Sep 17 00:00:00 2001
+From: way-zer <himc.wicp@gmail.com>
+Date: Sun, 9 Apr 2023 14:20:43 +0800
+Subject: [PATCH 05/12] API: Add `LogicBlock.running`
+
+---
+ core/src/mindustry/world/blocks/logic/LogicBlock.java | 5 +++++
+ core/src/mindustryX/MindustryXApi.java                | 9 +++++++++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 core/src/mindustryX/MindustryXApi.java
+
+diff --git a/core/src/mindustry/world/blocks/logic/LogicBlock.java b/core/src/mindustry/world/blocks/logic/LogicBlock.java
+index 1fc2a73..90b881a 100644
+--- a/core/src/mindustry/world/blocks/logic/LogicBlock.java
++++ b/core/src/mindustry/world/blocks/logic/LogicBlock.java
+@@ -23,6 +23,7 @@ import mindustry.ui.*;
+ import mindustry.world.*;
+ import mindustry.world.blocks.ConstructBlock.*;
+ import mindustry.world.meta.*;
++import mindustryX.*;
+ 
+ import java.io.*;
+ import java.util.zip.*;
+@@ -30,6 +31,8 @@ import java.util.zip.*;
+ import static mindustry.Vars.*;
+ 
+ public class LogicBlock extends Block{
++    @MindustryXApi
++    public static boolean running = false;
+     private static final int maxByteLen = 1024 * 500;
+ 
+     public int maxInstructionScale = 5;
+@@ -511,10 +514,12 @@ public class LogicBlock extends Block{
+ 
+                 if(accumulator > maxInstructionScale * ipt) accumulator = maxInstructionScale * ipt;
+ 
++                running = true;
+                 for(int i = 0; i < (int)accumulator; i++){
+                     executor.runOnce();
+                     accumulator --;
+                 }
++                running = false;
+             }
+         }
+ 
+diff --git a/core/src/mindustryX/MindustryXApi.java b/core/src/mindustryX/MindustryXApi.java
+new file mode 100644
+index 0000000..95a72f1
+--- /dev/null
++++ b/core/src/mindustryX/MindustryXApi.java
+@@ -0,0 +1,9 @@
++package mindustryX;
++
++import java.lang.annotation.*;
++
++@Documented
++@Retention(RetentionPolicy.SOURCE)
++@Target({ElementType.TYPE, ElementType.FIELD, ElementType.CONSTRUCTOR})
++public @interface MindustryXApi{
++}
+-- 
+2.40.1.windows.1
+

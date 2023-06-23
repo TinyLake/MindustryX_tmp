@@ -1,0 +1,108 @@
+From 594b5125ffc633ceb957cde3267af7f8b879d5f4 Mon Sep 17 00:00:00 2001
+From: way-zer <himc.wicp@gmail.com>
+Date: Fri, 23 Jun 2023 15:42:03 +0800
+Subject: [PATCH 01/12] Remove Useless project
+
+---
+ build.gradle    | 39 +--------------------------------------
+ settings.gradle |  4 ++--
+ 2 files changed, 3 insertions(+), 40 deletions(-)
+
+diff --git a/build.gradle b/build.gradle
+index 84cfbef..0c774d0 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -103,16 +103,6 @@ allprojects{
+             return project.ext.mainClassName.substring(0, project.ext.mainClassName.indexOf("desktop") - 1)
+         }
+ 
+-        findSdkDir = {
+-            //null because IntelliJ doesn't get env variables
+-            def v = System.getenv("ANDROID_HOME")
+-            if(v != null) return v
+-            //rootDir is null here, amazing. brilliant.
+-            def file = new File(rootDir, "local.properties")
+-            def props = new Properties().with{p -> p.load(file.newReader()); return p }
+-            return props.get("sdk.dir")
+-        }
+-
+         generateLocales = {
+             def output = 'en\n'
+             def bundles = new File(project(':core').projectDir, 'assets/bundles/')
+@@ -236,25 +226,6 @@ configure(subprojects - project(":annotations")){
+     }
+ }
+ 
+-project(":desktop"){
+-    apply plugin: "java"
+-
+-    compileJava.options.fork = true
+-
+-    dependencies{
+-        implementation project(":core")
+-        implementation arcModule("extensions:discord")
+-        implementation arcModule("natives:natives-desktop")
+-        implementation arcModule("natives:natives-freetype-desktop")
+-
+-        if(debugged()) implementation project(":debug")
+-
+-        implementation "com.github.Anuken:steamworks4j:$steamworksVersion"
+-
+-        implementation arcModule("backends:backend-sdl")
+-    }
+-}
+-
+ project(":core"){
+     apply plugin: "java-library"
+     apply plugin: "kotlin"
+@@ -341,10 +312,7 @@ project(":core"){
+ 
+     afterEvaluate{
+         task mergedJavadoc(type: Javadoc){
+-            def blacklist = [project(":ios"), project(":desktop"), project(":server"), project(":annotations")]
+-            if(findProject(":android") != null){
+-                blacklist += project(":android")
+-            }
++            def blacklist = [project(":server"), project(":annotations")]
+ 
+             source rootProject.subprojects.collect{ project ->
+                 if(!blacklist.contains(project) && project.hasProperty("sourceSets")){
+@@ -458,13 +426,8 @@ task deployAll{
+     }
+ 
+     dependsOn cleanDeployOutput
+-    dependsOn "desktop:packrLinux64"
+-    dependsOn "desktop:packrWindows64"
+-    dependsOn "desktop:packrWindows32"
+-    dependsOn "desktop:packrMacOS"
+     if(versionModifier != "steam"){
+         dependsOn "server:deploy"
+-        dependsOn "android:deploy"
+     }
+ }
+ 
+diff --git a/settings.gradle b/settings.gradle
+index fed0fcf..fbabdea 100644
+--- a/settings.gradle
++++ b/settings.gradle
+@@ -2,7 +2,7 @@ if(JavaVersion.current().ordinal() < JavaVersion.VERSION_16.ordinal()){
+     throw new Exception("!!! YOU MUST USE JAVA 16 OR ABOVE TO COMPILE AND RUN MINDUSTRY !!! Read the README. Your version: ${System.properties["java.version"]}")
+ }
+ 
+-include 'desktop', 'core', 'server', 'ios', 'annotations', 'tools', 'tests'
++include 'core', 'server', 'annotations', 'tools', 'tests'
+ 
+ def use = { ... names ->
+     for(String name : names){
+@@ -27,7 +27,7 @@ if(hasSdk){
+ 
+     //UPDATE: it no longer chokes on AGP with the latest version, but instead gives a completely different error. brilliant.
+     if(!System.getProperty("jna.tmpdir")?.contains("JetBrains")){
+-        include 'android'
++//        include 'android'
+     }
+ }else{
+     println("No Android SDK found. Skipping Android module.")
+-- 
+2.40.1.windows.1
+

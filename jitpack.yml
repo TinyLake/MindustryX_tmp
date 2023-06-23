@@ -5,8 +5,12 @@ before_install:
   - source install-jdk.sh --feature 17
   - jshell --version
 install:
+  - rm -rf ./base
+  - git submodule update --init --recursive --depth 10
   - cd ./base
   - git tag -f base
-  - git am ../patches/*
+  - git config --global user.email "ci@noreply.example.com"
+  - git config --global user.name "jitpack"
+  - git am --no-gpg-sign ../patches/*
   - ./gradlew publishToMavenLocal
   - echo -n > gradle.properties #zero out gradle.properties

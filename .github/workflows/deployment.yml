@@ -28,7 +28,9 @@ jobs:
       run: |
         cd ./base
         git tag -f base
-        git am ../patches/*
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions"
+        git am --no-gpg-sign ../patches/*
 
     - name: Create artifacts
       run: |

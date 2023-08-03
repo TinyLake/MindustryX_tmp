@@ -1,15 +1,12 @@
 jdk:
-  - openjdk16
-before_install:
-  - wget https://github.com/sormuras/bach/raw/releases/11/install-jdk.sh
-  - source install-jdk.sh --feature 17
-  - jshell --version
+  - openjdk17
 install:
-  - rm -rf ./work
-  - git submodule update --init --recursive --depth 10
+#  - rm -rf ./work #重建submodule,jitpack有问题
+  - git version
+  - git submodule update --init --recursive --depth 1
+  - cd work/ && git fetch origin v145.1 && git reset --hard FETCH_HEAD && cd ..
   - git config --global user.email "ci@noreply.example.com"
   - git config --global user.name "jitpack"
-  - sh ./scripts/applyPatches.sh
-  - cd work/
+  - sh ./scripts/applyPatches.sh && cd work/
   - ./gradlew publishToMavenLocal
   - echo -n > gradle.properties #zero out gradle.properties

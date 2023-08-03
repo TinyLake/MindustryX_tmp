@@ -1,0 +1,22 @@
+From 75600c067304ec2b69946a02f72daa2dfc27eb3a Mon Sep 17 00:00:00 2001
+From: way-zer <himc.wicp@gmail.com>
+Date: Thu, 3 Aug 2023 12:22:20 +0800
+Subject: [PATCH] ci: arc hash v145
+
+---
+ gradle.properties | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gradle.properties b/gradle.properties
+index 4ca67cb..d40ea21 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -25,4 +25,4 @@ org.gradle.caching=true
+ #used for slow jitpack builds; TODO see if this actually works
+ org.gradle.internal.http.socketTimeout=100000
+ org.gradle.internal.http.connectionTimeout=100000
+-archash=b718875065
++archash=v145
+-- 
+2.40.1.windows.1
+

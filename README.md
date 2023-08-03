@@ -30,17 +30,5 @@ If you'd rather compile on your own, `gradlew server:dist`.
 See `./patches/`.
 
 ## Contribution
-### checkout
-```shell
-cd base
-git tag -f base
-git am ../patches/*
-# work in base/
-```
-### update
-```shell
-cd base
-git format-patch -N -o ../patches base --
-cd ../ && git add patches/
-git commit
-```
+1. execute `scripts/applyPatches` then work in `work/`
+2. commit your feature in `work/`, then `scripts/genPatches.sh` and commit in root.

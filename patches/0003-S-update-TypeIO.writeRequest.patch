@@ -1,26 +1,25 @@
-From 739d44c2f93a3239daf3a33de680a5564bb63616 Mon Sep 17 00:00:00 2001
+From fd6b13ad87f9e9cd7ae7a2bfa65e3e2c72288782 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Wed, 2 Feb 2022 17:42:16 +0800
 Subject: [PATCH] S: update TypeIO.writeRequest
 
-(cherry picked from commit cea222ab0573303337aa91f5ffe5447351f7c10a)
-(cherry picked from commit 8ba4a6e1e5dd75a779d3509ebcde1c6dff6bd9d0)
 ---
- core/src/mindustry/io/TypeIO.java | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ core/src/mindustry/io/TypeIO.java | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/core/src/mindustry/io/TypeIO.java b/core/src/mindustry/io/TypeIO.java
-index 21ad470..0c86cf0 100644
+index 21ad470..54dbc2e 100644
 --- a/core/src/mindustry/io/TypeIO.java
 +++ b/core/src/mindustry/io/TypeIO.java
-@@ -403,8 +403,8 @@ public class TypeIO{
+@@ -403,8 +403,9 @@ public class TypeIO{
          if(!plan.breaking){
              write.s(plan.block.id);
              write.b((byte)plan.rotation);
 -            write.b(1); //always has config
 -            writeObject(write, plan.config);
-+            write.b(0); //always has config
-+            writeObject(write, net.server() ? null : plan.config);
++            boolean writePlan = !net.server();
++            write.b(writePlan ? 1 : 0); //always has config
++            writeObject(write, writePlan ? plan.config : null);
          }
      }
  

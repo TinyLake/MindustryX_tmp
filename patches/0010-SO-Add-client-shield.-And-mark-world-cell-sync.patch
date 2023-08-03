@@ -1,4 +1,4 @@
-From 578f2c6855d6486c3424ef212bee9d4ff17f87f4 Mon Sep 17 00:00:00 2001
+From 04354e52a5de30b08080fff688e99bce530248b5 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Mon, 14 Nov 2022 15:52:02 +0800
 Subject: [PATCH] SO: Add @client @shield. And mark `world-cell` sync.

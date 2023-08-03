@@ -1,4 +1,4 @@
-From 6e99002b5be04de21c9046244d0f41cf82bdae3b Mon Sep 17 00:00:00 2001
+From fd8b02c39659c49ff9d40e9955802fd192e0a458 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Sun, 9 Apr 2023 14:20:43 +0800
 Subject: [PATCH] API: Add `LogicBlock.running`

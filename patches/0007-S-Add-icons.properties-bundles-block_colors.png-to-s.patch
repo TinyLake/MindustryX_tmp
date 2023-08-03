@@ -1,4 +1,4 @@
-From 13760c94f65a6636895361256065f6c124b2c451 Mon Sep 17 00:00:00 2001
+From ac5eb27dd9c3ec97dde3a68480a775744549956a Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Fri, 23 Jun 2023 16:20:01 +0800
 Subject: [PATCH] S: Add icons.properties,bundles,block_colors.png to server

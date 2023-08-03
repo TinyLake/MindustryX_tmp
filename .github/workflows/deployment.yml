@@ -26,20 +26,18 @@ jobs:
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Apply Patch
       run: |
-        cd ./base
-        git tag -f base
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions"
-        git am --no-gpg-sign ../patches/*
+        ./scripts/applyPatches.sh
 
     - name: Create artifacts
       run: |
-        cd ./base
+        cd ./work
         ./gradlew -Pbuildversion=${RELEASE_VERSION:1} server:dist
     - name: Upload server artifacts
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: base/server/build/libs/server-release.jar
+        file: work/server/build/libs/server-release.jar
         tag: ${{ github.ref }}
 

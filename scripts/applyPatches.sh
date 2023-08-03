@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-cd base || exit 1
+cd work/ || exit 1
 git tag -f base
-git am ../patches/*
+git am --no-gpg-sign ../patches/*

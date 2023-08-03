@@ -4,13 +4,12 @@ function getRef() {
     git ls-tree "$1" "$2" | cut -d' ' -f3 | cut -f1
 }
 
-cd base || exit 1
-git fetch origin "$1" || (echo fail fetch && exit 1)
-git tag -f base FETCH_HEAD && git reset --hard base || exit 1
+cd work/ || exit 1
+git fetch origin "$1" && git clean -fd && git reset --hard FETCH_HEAD || exit 1
 refRemote=$(git rev-parse HEAD)
 cd ../
-git add --force base
-refHEAD=$(getRef HEAD base)
+git add --force work
+refHEAD=$(getRef HEAD work)
 echo "$refHEAD -> $refRemote"
 
 if [ "$refHEAD" != "$refRemote" ]; then

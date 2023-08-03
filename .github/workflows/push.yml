@@ -22,11 +22,9 @@ jobs:
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Apply Patch
       run: |
-        cd ./base
-        git tag -f base
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions"
-        git am --no-gpg-sign ../patches/*
+        ./scripts/applyPatches.sh
 
     - name: Run unit tests
-      run: cd ./base && ./gradlew clean cleanTest test --stacktrace
+      run: cd ./work && ./gradlew clean cleanTest test --stacktrace

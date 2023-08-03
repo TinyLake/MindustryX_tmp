@@ -19,16 +19,14 @@ jobs:
         java-version: 17
     - name: Apply Patch
       run: |
-        cd ./base
-        git tag -f base
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions"
-        git am --no-gpg-sign ../patches/*
+        ./scripts/applyPatches.sh
 
     - name: Run unit tests and build JAR
-      run: cd ./base && ./gradlew test server:dist
+      run: cd ./work && ./gradlew test server:dist
     - name: Upload desktop JAR for testing
       uses: actions/upload-artifact@v2
       with:
         name: Server JAR (zipped)
-        path: base/server/build/libs/server-release.jar
+        path: work/server/build/libs/server-release.jar

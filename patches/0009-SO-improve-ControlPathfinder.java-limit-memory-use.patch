@@ -1,7 +1,7 @@
 From 9b5bbcb635106863e5ea86c1845ee8b4e5017f93 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Fri, 23 Jun 2023 16:21:59 +0800
-Subject: [PATCH 09/12] SO: improve ControlPathfinder.java (limit memory use)
+Subject: [PATCH] SO: improve ControlPathfinder.java (limit memory use)
 
 ---
  core/src/mindustry/ai/ControlPathfinder.java | 21 +++++++++++++++++---

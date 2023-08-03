@@ -1,7 +1,7 @@
 From e74a98932478baee751a6bcdb0f58a5226a178d3 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Sun, 18 Dec 2022 23:43:02 +0800
-Subject: [PATCH 11/12] SO: Fix #4
+Subject: [PATCH] SO: Fix #4
 
 ---
  core/src/mindustry/ai/RtsAI.java | 4 +++-

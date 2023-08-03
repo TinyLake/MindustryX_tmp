@@ -1,8 +1,7 @@
 From 2e19f57830fe5a3c061b76f2e7a7e16c75191e9a Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Sun, 18 Dec 2022 23:15:40 +0800
-Subject: [PATCH 04/12] SO: do reset for all `static` of `Building` and `Unit`
- Fix #3
+Subject: [PATCH] SO: do reset for all `static` of `Building` and `Unit` Fix #3
 
 ---
  core/src/mindustry/ai/types/CargoAI.java               |  8 ++++++++

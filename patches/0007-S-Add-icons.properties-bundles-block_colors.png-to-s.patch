@@ -1,8 +1,8 @@
 From 13760c94f65a6636895361256065f6c124b2c451 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Fri, 23 Jun 2023 16:20:01 +0800
-Subject: [PATCH 07/12] S: Add icons.properties,bundles,block_colors.png to
- server build
+Subject: [PATCH] S: Add icons.properties,bundles,block_colors.png to server
+ build
 
 ---
  server/build.gradle                           | 24 +++++++++----------

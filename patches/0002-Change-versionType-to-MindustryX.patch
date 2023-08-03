@@ -1,7 +1,7 @@
 From 6f7d272bf91b24fc06b7c22ff438cd2fd16716a9 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Fri, 23 Jun 2023 16:11:58 +0800
-Subject: [PATCH 02/12] Change versionType to `MindustryX`
+Subject: [PATCH] Change versionType to `MindustryX`
 
 ---
  build.gradle                           |  4 ++--

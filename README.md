@@ -40,7 +40,7 @@ git am ../patches/*
 ### update
 ```shell
 cd base
-git format-patch -o ../patches base --
+git format-patch -N -o ../patches base --
 cd ../ && git add patches/
 git commit
 ```

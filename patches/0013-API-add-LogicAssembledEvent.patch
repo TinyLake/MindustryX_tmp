@@ -1,4 +1,4 @@
-From fbd20cb41f0c052a015adf1716e3b666a4cf3409 Mon Sep 17 00:00:00 2001
+From 0ab4ea1dc6e936c58e84d8d4632feefe2bf74cb2 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Thu, 3 Aug 2023 12:20:38 +0800
 Subject: [PATCH] API: add LogicAssembledEvent
@@ -34,7 +34,7 @@ index 6f65e99..3213382 100644
                  }
                  line ++;
 diff --git a/core/src/mindustry/logic/LStatements.java b/core/src/mindustry/logic/LStatements.java
-index b829351..3070ddb 100644
+index b829351..2a37500 100644
 --- a/core/src/mindustry/logic/LStatements.java
 +++ b/core/src/mindustry/logic/LStatements.java
 @@ -16,6 +16,7 @@ import mindustry.logic.LExecutor.*;
@@ -50,7 +50,7 @@ index b829351..3070ddb 100644
      @RegisterStatement("noop")
      public static class InvalidStatement extends LStatement{
 +        @MindustryXApi
-+        public String[] tokens = {};
++        public transient String[] tokens = {};
 +
 +        public InvalidStatement(){
 +        }

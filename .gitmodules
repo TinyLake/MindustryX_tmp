@@ -1,3 +1,4 @@
 [submodule "Mindustry"]
 	path = work
 	url = https://github.com/Anuken/Mindustry
+    ignore = all

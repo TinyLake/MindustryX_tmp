@@ -1,4 +1,4 @@
-From 9182d2bb546423458a8456e0a5bf58943b04a33e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Fri, 23 Jun 2023 16:20:12 +0800
 Subject: [PATCH] S: add `Config.locale` for localizedName

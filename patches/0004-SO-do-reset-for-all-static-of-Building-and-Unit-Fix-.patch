@@ -1,4 +1,4 @@
-From 3253595000e19c13198fb49942a098d8c83e978f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Sun, 18 Dec 2022 23:15:40 +0800
 Subject: [PATCH] SO: do reset for all `static` of `Building` and `Unit` Fix #3

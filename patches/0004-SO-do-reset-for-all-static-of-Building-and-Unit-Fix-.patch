@@ -1,4 +1,4 @@
-From f79f5baf4012ac5ca169d7f43673a6f7c3d102c1 Mon Sep 17 00:00:00 2001
+From 3fc8c998227cd5b18add04a689b2645bcc9b06ca Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Sun, 18 Dec 2022 23:15:40 +0800
 Subject: [PATCH] SO: do reset for all `static` of `Building` and `Unit` Fix #3
@@ -23,7 +23,7 @@ Subject: [PATCH] SO: do reset for all `static` of `Building` and `Unit` Fix #3
  16 files changed, 118 insertions(+)
 
 diff --git a/core/src/mindustry/ai/types/CargoAI.java b/core/src/mindustry/ai/types/CargoAI.java
-index 8fb522e..92b4346 100644
+index 8fb522e9..92b43463 100644
 --- a/core/src/mindustry/ai/types/CargoAI.java
 +++ b/core/src/mindustry/ai/types/CargoAI.java
 @@ -1,9 +1,11 @@
@@ -52,7 +52,7 @@ index 8fb522e..92b4346 100644
      public static float transferRange = 20f, moveRange = 6f, moveSmoothing = 20f;
  
 diff --git a/core/src/mindustry/entities/Damage.java b/core/src/mindustry/entities/Damage.java
-index 5c83b1a..b2fcfd4 100644
+index f36f66df..5b238e9f 100644
 --- a/core/src/mindustry/entities/Damage.java
 +++ b/core/src/mindustry/entities/Damage.java
 @@ -37,6 +37,16 @@ public class Damage{
@@ -73,7 +73,7 @@ index 5c83b1a..b2fcfd4 100644
          builds.clear();
          indexer.eachBlock(null, x, y, range, build -> build.team != team, build -> {
 diff --git a/core/src/mindustry/entities/Units.java b/core/src/mindustry/entities/Units.java
-index 1a5d024..4e01d16 100644
+index 184203a9..1b4511ed 100644
 --- a/core/src/mindustry/entities/Units.java
 +++ b/core/src/mindustry/entities/Units.java
 @@ -8,6 +8,7 @@ import arc.util.*;
@@ -99,7 +99,7 @@ index 1a5d024..4e01d16 100644
      private static boolean anyEntityGround;
      private static float aeX, aeY, aeW, aeH;
 diff --git a/core/src/mindustry/entities/abilities/ForceFieldAbility.java b/core/src/mindustry/entities/abilities/ForceFieldAbility.java
-index 4c0ff99..125c764 100644
+index 81264ac0..d6a07484 100644
 --- a/core/src/mindustry/entities/abilities/ForceFieldAbility.java
 +++ b/core/src/mindustry/entities/abilities/ForceFieldAbility.java
 @@ -1,5 +1,6 @@
@@ -117,7 +117,7 @@ index 4c0ff99..125c764 100644
  import mindustry.gen.*;
  import mindustry.graphics.*;
  import mindustry.ui.*;
-@@ -33,6 +35,12 @@ public class ForceFieldAbility extends Ability{
+@@ -36,6 +38,12 @@ public class ForceFieldAbility extends Ability{
      private static float realRad;
      private static Unit paramUnit;
      private static ForceFieldAbility paramField;
@@ -131,7 +131,7 @@ index 4c0ff99..125c764 100644
          if(trait.team != paramUnit.team && trait.type.absorbable && Intersector.isInRegularPolygon(paramField.sides, paramUnit.x, paramUnit.y, realRad, paramField.rotation, trait.x(), trait.y()) && paramUnit.shield > 0){
              trait.absorb();
 diff --git a/core/src/mindustry/entities/abilities/ShieldArcAbility.java b/core/src/mindustry/entities/abilities/ShieldArcAbility.java
-index 9e9f570..0696cbb 100644
+index 548a1238..13b26515 100644
 --- a/core/src/mindustry/entities/abilities/ShieldArcAbility.java
 +++ b/core/src/mindustry/entities/abilities/ShieldArcAbility.java
 @@ -1,5 +1,6 @@
@@ -149,7 +149,7 @@ index 9e9f570..0696cbb 100644
  import mindustry.gen.*;
  import mindustry.graphics.*;
  import mindustry.type.*;
-@@ -17,6 +19,11 @@ import mindustry.ui.*;
+@@ -18,6 +20,11 @@ import mindustry.world.meta.*;
  public class ShieldArcAbility extends Ability{
      private static Unit paramUnit;
      private static ShieldArcAbility paramField;
@@ -162,7 +162,7 @@ index 9e9f570..0696cbb 100644
      private static final Cons<Bullet> shieldConsumer = b -> {
          if(b.team != paramUnit.team && b.type.absorbable && paramField.data > 0 &&
 diff --git a/core/src/mindustry/entities/bullet/PointBulletType.java b/core/src/mindustry/entities/bullet/PointBulletType.java
-index 8bd5f4a..b6c1afa 100644
+index 8bd5f4a7..b6c1afa0 100644
 --- a/core/src/mindustry/entities/bullet/PointBulletType.java
 +++ b/core/src/mindustry/entities/bullet/PointBulletType.java
 @@ -1,15 +1,23 @@
@@ -190,7 +190,7 @@ index 8bd5f4a..b6c1afa 100644
  
       public PointBulletType(){
 diff --git a/core/src/mindustry/entities/comp/PuddleComp.java b/core/src/mindustry/entities/comp/PuddleComp.java
-index 090a881..800fa76 100644
+index 090a8810..800fa762 100644
 --- a/core/src/mindustry/entities/comp/PuddleComp.java
 +++ b/core/src/mindustry/entities/comp/PuddleComp.java
 @@ -1,5 +1,6 @@
@@ -221,7 +221,7 @@ index 090a881..800fa76 100644
          if(unit.isGrounded() && !unit.hovering){
              unit.hitbox(rect2);
 diff --git a/core/src/mindustry/logic/LExecutor.java b/core/src/mindustry/logic/LExecutor.java
-index d4b788d..192490b 100644
+index 2e87d6c8..40785ce9 100644
 --- a/core/src/mindustry/logic/LExecutor.java
 +++ b/core/src/mindustry/logic/LExecutor.java
 @@ -14,6 +14,7 @@ import mindustry.core.*;
@@ -231,8 +231,8 @@ index d4b788d..192490b 100644
 +import mindustry.game.EventType.*;
  import mindustry.game.Teams.*;
  import mindustry.gen.*;
- import mindustry.type.*;
-@@ -739,6 +740,11 @@ public class LExecutor{
+ import mindustry.logic.LogicFx.*;
+@@ -749,6 +750,11 @@ public class LExecutor{
  
          static float bestValue = 0f;
          static Unit best = null;
@@ -245,7 +245,7 @@ index d4b788d..192490b 100644
          public RadarI(RadarTarget target1, RadarTarget target2, RadarTarget target3, RadarSort sort, int radar, int sortOrder, int output){
              this.target1 = target1;
 diff --git a/core/src/mindustry/world/blocks/defense/AutoDoor.java b/core/src/mindustry/world/blocks/defense/AutoDoor.java
-index a1cfb08..8c95867 100644
+index a1cfb086..8c958674 100644
 --- a/core/src/mindustry/world/blocks/defense/AutoDoor.java
 +++ b/core/src/mindustry/world/blocks/defense/AutoDoor.java
 @@ -1,5 +1,6 @@
@@ -276,7 +276,7 @@ index a1cfb08..8c95867 100644
  
      public final int timerToggle = timers++;
 diff --git a/core/src/mindustry/world/blocks/defense/BaseShield.java b/core/src/mindustry/world/blocks/defense/BaseShield.java
-index 32bc077..b6c57d5 100644
+index 32bc077e..b6c57d5f 100644
 --- a/core/src/mindustry/world/blocks/defense/BaseShield.java
 +++ b/core/src/mindustry/world/blocks/defense/BaseShield.java
 @@ -1,5 +1,6 @@
@@ -308,7 +308,7 @@ index 32bc077..b6c57d5 100644
      protected static final Cons<Bullet> bulletConsumer = bullet -> {
          if(bullet.team != paramBuild.team && bullet.type.absorbable && bullet.within(paramBuild, paramBuild.radius())){
 diff --git a/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java b/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java
-index 43548a6..4be828b 100644
+index 43548a63..4be828b5 100644
 --- a/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java
 +++ b/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java
 @@ -1,5 +1,6 @@
@@ -340,7 +340,7 @@ index 43548a6..4be828b 100644
          if(b.team != paramEntity.team && b.type.absorbable){
              //just in case
 diff --git a/core/src/mindustry/world/blocks/defense/Door.java b/core/src/mindustry/world/blocks/defense/Door.java
-index 3fa4732..ea77a05 100644
+index 3fa4732e..ea77a052 100644
 --- a/core/src/mindustry/world/blocks/defense/Door.java
 +++ b/core/src/mindustry/world/blocks/defense/Door.java
 @@ -1,5 +1,6 @@
@@ -371,7 +371,7 @@ index 3fa4732..ea77a05 100644
      public final int timerToggle = timers++;
      public Effect openfx = Fx.dooropen;
 diff --git a/core/src/mindustry/world/blocks/defense/ForceProjector.java b/core/src/mindustry/world/blocks/defense/ForceProjector.java
-index 1ef9e02..179f192 100644
+index 74f0fd48..078fc813 100644
 --- a/core/src/mindustry/world/blocks/defense/ForceProjector.java
 +++ b/core/src/mindustry/world/blocks/defense/ForceProjector.java
 @@ -47,6 +47,12 @@ public class ForceProjector extends Block{
@@ -388,7 +388,7 @@ index 1ef9e02..179f192 100644
          if(bullet.team != paramEntity.team && bullet.type.absorbable && Intersector.isInRegularPolygon(((ForceProjector)(paramEntity.block)).sides, paramEntity.x, paramEntity.y, paramEntity.realRadius(), ((ForceProjector)(paramEntity.block)).shieldRotation, bullet.x, bullet.y)){
              bullet.absorb();
 diff --git a/core/src/mindustry/world/blocks/distribution/DirectionBridge.java b/core/src/mindustry/world/blocks/distribution/DirectionBridge.java
-index 581cd67..cb2bf03 100644
+index 97e38584..edce0a4c 100644
 --- a/core/src/mindustry/world/blocks/distribution/DirectionBridge.java
 +++ b/core/src/mindustry/world/blocks/distribution/DirectionBridge.java
 @@ -1,5 +1,6 @@
@@ -419,7 +419,7 @@ index 581cd67..cb2bf03 100644
  
      public @Load("@-bridge") TextureRegion bridgeRegion;
 diff --git a/core/src/mindustry/world/blocks/distribution/ItemBridge.java b/core/src/mindustry/world/blocks/distribution/ItemBridge.java
-index beb3e79..f501aa1 100644
+index beb3e79d..f501aa1d 100644
 --- a/core/src/mindustry/world/blocks/distribution/ItemBridge.java
 +++ b/core/src/mindustry/world/blocks/distribution/ItemBridge.java
 @@ -1,5 +1,6 @@
@@ -450,7 +450,7 @@ index beb3e79..f501aa1 100644
      public final int timerCheckMoved = timers ++;
  
 diff --git a/core/src/mindustry/world/blocks/power/PowerNode.java b/core/src/mindustry/world/blocks/power/PowerNode.java
-index c543a58..bbd8d20 100644
+index 582a2246..9e3529a9 100644
 --- a/core/src/mindustry/world/blocks/power/PowerNode.java
 +++ b/core/src/mindustry/world/blocks/power/PowerNode.java
 @@ -12,6 +12,7 @@ import mindustry.annotations.Annotations.*;

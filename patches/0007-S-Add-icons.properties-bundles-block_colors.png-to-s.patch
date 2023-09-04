@@ -1,4 +1,4 @@
-From ac5eb27dd9c3ec97dde3a68480a775744549956a Mon Sep 17 00:00:00 2001
+From 686a7f8fca1a0ab25820479dfd9dd1642c2c3767 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Fri, 23 Jun 2023 16:20:01 +0800
 Subject: [PATCH] S: Add icons.properties,bundles,block_colors.png to server
@@ -10,7 +10,7 @@ Subject: [PATCH] S: Add icons.properties,bundles,block_colors.png to server
  2 files changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/server/build.gradle b/server/build.gradle
-index 7359fda..8a35079 100644
+index 7359fdac..8a35079e 100644
 --- a/server/build.gradle
 +++ b/server/build.gradle
 @@ -34,18 +34,18 @@ task dist(type: Jar, dependsOn: configurations.runtimeClasspath){
@@ -45,7 +45,7 @@ index 7359fda..8a35079 100644
      manifest{
          attributes 'Main-Class': project.mainClassName
 diff --git a/server/src/mindustry/server/ServerLauncher.java b/server/src/mindustry/server/ServerLauncher.java
-index 1aea11b..167be58 100644
+index 1aea11b2..167be582 100644
 --- a/server/src/mindustry/server/ServerLauncher.java
 +++ b/server/src/mindustry/server/ServerLauncher.java
 @@ -41,7 +41,7 @@ public class ServerLauncher implements ApplicationListener{

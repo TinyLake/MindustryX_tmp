@@ -1,4 +1,4 @@
-From fd8b02c39659c49ff9d40e9955802fd192e0a458 Mon Sep 17 00:00:00 2001
+From d074b4919879779023241b6e8db66a8d5fc53b01 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Sun, 9 Apr 2023 14:20:43 +0800
 Subject: [PATCH] API: Add `LogicBlock.running`
@@ -10,7 +10,7 @@ Subject: [PATCH] API: Add `LogicBlock.running`
  create mode 100644 core/src/mindustryX/MindustryXApi.java
 
 diff --git a/core/src/mindustry/world/blocks/logic/LogicBlock.java b/core/src/mindustry/world/blocks/logic/LogicBlock.java
-index 1fc2a73..90b881a 100644
+index 7805e683..38a59465 100644
 --- a/core/src/mindustry/world/blocks/logic/LogicBlock.java
 +++ b/core/src/mindustry/world/blocks/logic/LogicBlock.java
 @@ -23,6 +23,7 @@ import mindustry.ui.*;
@@ -27,7 +27,7 @@ index 1fc2a73..90b881a 100644
  public class LogicBlock extends Block{
 +    @MindustryXApi
 +    public static boolean running = false;
-     private static final int maxByteLen = 1024 * 500;
+     private static final int maxByteLen = 1024 * 100;
  
      public int maxInstructionScale = 5;
 @@ -511,10 +514,12 @@ public class LogicBlock extends Block{
@@ -45,7 +45,7 @@ index 1fc2a73..90b881a 100644
  
 diff --git a/core/src/mindustryX/MindustryXApi.java b/core/src/mindustryX/MindustryXApi.java
 new file mode 100644
-index 0000000..95a72f1
+index 00000000..95a72f15
 --- /dev/null
 +++ b/core/src/mindustryX/MindustryXApi.java
 @@ -0,0 +1,9 @@

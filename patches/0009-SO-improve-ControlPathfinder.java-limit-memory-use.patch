@@ -1,4 +1,4 @@
-From 84f889fed9ca65f706bb26efe078848c6ef93589 Mon Sep 17 00:00:00 2001
+From 23e062c66f922b40f44facea830ffd7ba27f5ceb Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Fri, 23 Jun 2023 16:21:59 +0800
 Subject: [PATCH] SO: improve ControlPathfinder.java (limit memory use)
@@ -8,10 +8,10 @@ Subject: [PATCH] SO: improve ControlPathfinder.java (limit memory use)
  1 file changed, 18 insertions(+), 3 deletions(-)
 
 diff --git a/core/src/mindustry/ai/ControlPathfinder.java b/core/src/mindustry/ai/ControlPathfinder.java
-index d2e74f9..543c0e3 100644
+index 4ff9f7e3..2a3ce7bf 100644
 --- a/core/src/mindustry/ai/ControlPathfinder.java
 +++ b/core/src/mindustry/ai/ControlPathfinder.java
-@@ -14,6 +14,10 @@ import mindustry.game.*;
+@@ -13,6 +13,10 @@ import mindustry.game.*;
  import mindustry.gen.*;
  import mindustry.graphics.*;
  import mindustry.world.*;
@@ -22,7 +22,7 @@ index d2e74f9..543c0e3 100644
  
  import static mindustry.Vars.*;
  import static mindustry.ai.Pathfinder.*;
-@@ -21,6 +25,8 @@ import static mindustry.ai.Pathfinder.*;
+@@ -20,6 +24,8 @@ import static mindustry.ai.Pathfinder.*;
  public class ControlPathfinder{
      //TODO this FPS-based update system could be flawed.
      private static final long maxUpdate = Time.millisToNanos(30);
@@ -51,7 +51,7 @@ index d2e74f9..543c0e3 100644
                      req.thread.queue.post(() -> req.thread.requests.remove(req));
                  }
              }
-@@ -337,6 +347,7 @@ public class ControlPathfinder{
+@@ -334,6 +344,7 @@ public class ControlPathfinder{
          }
          threads = null;
          requests.clear();
@@ -59,7 +59,7 @@ index d2e74f9..543c0e3 100644
      }
  
      private static boolean raycast(int team, PathCost type, int x1, int y1, int x2, int y2){
-@@ -466,9 +477,13 @@ public class ControlPathfinder{
+@@ -463,9 +474,13 @@ public class ControlPathfinder{
                          requestSize = requests.size;
  
                          //total update time no longer than maxUpdate

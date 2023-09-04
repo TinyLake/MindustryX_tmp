@@ -1,4 +1,4 @@
-From 57f27f8dd1b715e09a077f32a8744639ed6629e7 Mon Sep 17 00:00:00 2001
+From 5e5dec70e858b3eb06d78c7f8dea154be55a0b8d Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Mon, 26 Dec 2022 15:29:10 +0800
 Subject: [PATCH] SO: Fix #6
@@ -8,7 +8,7 @@ Subject: [PATCH] SO: Fix #6
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/core/src/mindustry/world/blocks/payloads/PayloadConveyor.java b/core/src/mindustry/world/blocks/payloads/PayloadConveyor.java
-index 94a0de3..036ccf0 100644
+index 94a0de30..036ccf0b 100644
 --- a/core/src/mindustry/world/blocks/payloads/PayloadConveyor.java
 +++ b/core/src/mindustry/world/blocks/payloads/PayloadConveyor.java
 @@ -11,6 +11,7 @@ import mindustry.entities.*;

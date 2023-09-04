@@ -1,4 +1,4 @@
-From 6f7d272bf91b24fc06b7c22ff438cd2fd16716a9 Mon Sep 17 00:00:00 2001
+From 48158a47604d44e69e8465cfd22bc6163de0a5d1 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Fri, 23 Jun 2023 16:11:58 +0800
 Subject: [PATCH] Change versionType to `MindustryX`
@@ -9,7 +9,7 @@ Subject: [PATCH] Change versionType to `MindustryX`
  2 files changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/build.gradle b/build.gradle
-index 0c774d0..21fc48c 100644
+index 0c774d0c..21fc48cc 100644
 --- a/build.gradle
 +++ b/build.gradle
 @@ -30,12 +30,12 @@ allprojects{
@@ -28,10 +28,10 @@ index 0c774d0..21fc48c 100644
          steamworksVersion = '0b86023401880bb5e586bc404bedbaae9b1f1c94'
          rhinoVersion = '73a812444ac388ac2d94013b5cadc8f70b7ea027'
 diff --git a/core/src/mindustry/core/NetServer.java b/core/src/mindustry/core/NetServer.java
-index 2fb5de2..2ecbe63 100644
+index 52ae9dd3..66a3940a 100644
 --- a/core/src/mindustry/core/NetServer.java
 +++ b/core/src/mindustry/core/NetServer.java
-@@ -199,9 +199,14 @@ public class NetServer implements ApplicationListener{
+@@ -208,9 +208,14 @@ public class NetServer implements ApplicationListener{
                  return;
              }
  

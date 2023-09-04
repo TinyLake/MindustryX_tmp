@@ -1,4 +1,4 @@
-From c6255060c68c615fea568feb6d02a41259aae6be Mon Sep 17 00:00:00 2001
+From 47aaf6e54ecd55f03fc9103e42af9344265f3092 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Fri, 23 Jun 2023 16:18:22 +0800
 Subject: [PATCH] API: add SendPacketEvent
@@ -11,7 +11,7 @@ Subject: [PATCH] API: add SendPacketEvent
  create mode 100644 core/src/mindustryX/events/SendPacketEvent.java
 
 diff --git a/core/src/mindustry/net/ArcNetProvider.java b/core/src/mindustry/net/ArcNetProvider.java
-index 87a16f6..c9ed683 100644
+index 87a16f6a..c9ed6832 100644
 --- a/core/src/mindustry/net/ArcNetProvider.java
 +++ b/core/src/mindustry/net/ArcNetProvider.java
 @@ -15,6 +15,7 @@ import mindustry.game.EventType.*;
@@ -39,7 +39,7 @@ index 87a16f6..c9ed683 100644
                  if(reliable){
                      connection.sendTCP(object);
 diff --git a/core/src/mindustry/net/Net.java b/core/src/mindustry/net/Net.java
-index ef69c39..6f9b8f9 100644
+index ef69c392..6f9b8f9b 100644
 --- a/core/src/mindustry/net/Net.java
 +++ b/core/src/mindustry/net/Net.java
 @@ -9,6 +9,7 @@ import mindustry.game.EventType.*;
@@ -74,7 +74,7 @@ index ef69c39..6f9b8f9 100644
          }
 diff --git a/core/src/mindustryX/events/SendPacketEvent.java b/core/src/mindustryX/events/SendPacketEvent.java
 new file mode 100644
-index 0000000..11e0817
+index 00000000..11e0817d
 --- /dev/null
 +++ b/core/src/mindustryX/events/SendPacketEvent.java
 @@ -0,0 +1,33 @@

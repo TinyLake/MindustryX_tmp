@@ -1,4 +1,4 @@
-From 594b5125ffc633ceb957cde3267af7f8b879d5f4 Mon Sep 17 00:00:00 2001
+From 8957d75e7669d906c3e4e2e7209250cf71ae9c21 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Fri, 23 Jun 2023 15:42:03 +0800
 Subject: [PATCH] Remove Useless project
@@ -9,7 +9,7 @@ Subject: [PATCH] Remove Useless project
  2 files changed, 3 insertions(+), 40 deletions(-)
 
 diff --git a/build.gradle b/build.gradle
-index 84cfbef..0c774d0 100644
+index 84cfbefc..0c774d0c 100644
 --- a/build.gradle
 +++ b/build.gradle
 @@ -103,16 +103,6 @@ allprojects{
@@ -82,7 +82,7 @@ index 84cfbef..0c774d0 100644
  }
  
 diff --git a/settings.gradle b/settings.gradle
-index fed0fcf..fbabdea 100644
+index fed0fcf0..fbabdea3 100644
 --- a/settings.gradle
 +++ b/settings.gradle
 @@ -2,7 +2,7 @@ if(JavaVersion.current().ordinal() < JavaVersion.VERSION_16.ordinal()){

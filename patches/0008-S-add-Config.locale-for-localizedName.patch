@@ -1,4 +1,4 @@
-From 3231a284c4294c7fa08eb8f48e5af2593593f8c7 Mon Sep 17 00:00:00 2001
+From bea2293390658aaca3338c7d57c04bae1d7b0558 Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Fri, 23 Jun 2023 16:20:12 +0800
 Subject: [PATCH] S: add `Config.locale` for localizedName
@@ -8,10 +8,10 @@ Subject: [PATCH] S: add `Config.locale` for localizedName
  1 file changed, 1 insertion(+)
 
 diff --git a/core/src/mindustry/net/Administration.java b/core/src/mindustry/net/Administration.java
-index 4d68060..f152261 100644
+index 443bc08e..fb23b9b0 100644
 --- a/core/src/mindustry/net/Administration.java
 +++ b/core/src/mindustry/net/Administration.java
-@@ -487,6 +487,7 @@ public class Administration{
+@@ -488,6 +488,7 @@ public class Administration{
          serverName = new Config("name", "The server name as displayed on clients.", "Server", "servername"),
          desc = new Config("desc", "The server description, displayed under the name. Max 100 characters.", "off"),
          port = new Config("port", "The port to host on.", Vars.port),

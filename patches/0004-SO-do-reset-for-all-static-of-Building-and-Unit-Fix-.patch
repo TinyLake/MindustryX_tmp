@@ -1,17 +1,23 @@
-From 3fc8c998227cd5b18add04a689b2645bcc9b06ca Mon Sep 17 00:00:00 2001
+From 3253595000e19c13198fb49942a098d8c83e978f Mon Sep 17 00:00:00 2001
 From: way-zer <himc.wicp@gmail.com>
 Date: Sun, 18 Dec 2022 23:15:40 +0800
 Subject: [PATCH] SO: do reset for all `static` of `Building` and `Unit` Fix #3
 
 ---
+ core/src/mindustry/ai/RtsAI.java                       |  5 +++++
  core/src/mindustry/ai/types/CargoAI.java               |  8 ++++++++
+ core/src/mindustry/core/Logic.java                     |  4 ++++
  core/src/mindustry/entities/Damage.java                | 10 ++++++++++
+ core/src/mindustry/entities/Lightning.java             |  8 ++++++++
  core/src/mindustry/entities/Units.java                 |  8 ++++++++
  .../entities/abilities/ForceFieldAbility.java          |  8 ++++++++
  .../mindustry/entities/abilities/ShieldArcAbility.java |  7 +++++++
  .../src/mindustry/entities/bullet/PointBulletType.java |  8 ++++++++
+ core/src/mindustry/entities/comp/BuildingComp.java     |  7 +++++++
  core/src/mindustry/entities/comp/PuddleComp.java       |  7 +++++++
  core/src/mindustry/logic/LExecutor.java                |  6 ++++++
+ core/src/mindustry/world/Block.java                    |  8 ++++++++
+ core/src/mindustry/world/Tile.java                     |  6 ++++++
  core/src/mindustry/world/blocks/defense/AutoDoor.java  |  7 +++++++
  .../src/mindustry/world/blocks/defense/BaseShield.java |  8 ++++++++
  .../blocks/defense/DirectionalForceProjector.java      |  8 ++++++++
@@ -19,9 +25,26 @@ Subject: [PATCH] SO: do reset for all `static` of `Building` and `Unit` Fix #3
  .../mindustry/world/blocks/defense/ForceProjector.java |  6 ++++++
  .../world/blocks/distribution/DirectionBridge.java     |  7 +++++++
  .../world/blocks/distribution/ItemBridge.java          |  7 +++++++
+ core/src/mindustry/world/blocks/power/PowerGraph.java  | 10 ++++++++++
  core/src/mindustry/world/blocks/power/PowerNode.java   |  6 ++++++
- 16 files changed, 118 insertions(+)
+ 23 files changed, 166 insertions(+)
 
+diff --git a/core/src/mindustry/ai/RtsAI.java b/core/src/mindustry/ai/RtsAI.java
+index 6b37777c..3a36884b 100644
+--- a/core/src/mindustry/ai/RtsAI.java
++++ b/core/src/mindustry/ai/RtsAI.java
+@@ -51,6 +51,11 @@ public class RtsAI{
+                 }
+             }
+         });
++        Events.on(ResetEvent.class, e -> {
++            targets.clear();
++            squad.clear();
++            weights.clear();
++        });
+     }
+ 
+     public RtsAI(TeamData data){
 diff --git a/core/src/mindustry/ai/types/CargoAI.java b/core/src/mindustry/ai/types/CargoAI.java
 index 8fb522e9..92b43463 100644
 --- a/core/src/mindustry/ai/types/CargoAI.java
@@ -51,6 +74,21 @@ index 8fb522e9..92b43463 100644
      public static float emptyWaitTime = 60f * 2f, dropSpacing = 60f * 1.5f;
      public static float transferRange = 20f, moveRange = 6f, moveSmoothing = 20f;
  
+diff --git a/core/src/mindustry/core/Logic.java b/core/src/mindustry/core/Logic.java
+index e722afb8..deb42a17 100644
+--- a/core/src/mindustry/core/Logic.java
++++ b/core/src/mindustry/core/Logic.java
+@@ -248,6 +248,10 @@ public class Logic implements ApplicationListener{
+         //fire change event, since it was technically changed
+         Events.fire(new StateChangeEvent(prev, State.menu));
+ 
++        Groups.build.each(it -> {
++            if(it.power != null)
++                it.power.graph = null;
++        });
+         Groups.clear();
+         Time.clear();
+         Events.fire(new ResetEvent());
 diff --git a/core/src/mindustry/entities/Damage.java b/core/src/mindustry/entities/Damage.java
 index f36f66df..5b238e9f 100644
 --- a/core/src/mindustry/entities/Damage.java
@@ -72,6 +110,38 @@ index f36f66df..5b238e9f 100644
      public static void applySuppression(Team team, float x, float y, float range, float reload, float maxDelay, float applyParticleChance, @Nullable Position source){
          builds.clear();
          indexer.eachBlock(null, x, y, range, build -> build.team != team, build -> {
+diff --git a/core/src/mindustry/entities/Lightning.java b/core/src/mindustry/entities/Lightning.java
+index 76bbcb82..8fb60503 100644
+--- a/core/src/mindustry/entities/Lightning.java
++++ b/core/src/mindustry/entities/Lightning.java
+@@ -1,5 +1,6 @@
+ package mindustry.entities;
+ 
++import arc.*;
+ import arc.graphics.*;
+ import arc.math.*;
+ import arc.math.geom.*;
+@@ -9,6 +10,7 @@ import mindustry.content.*;
+ import mindustry.core.*;
+ import mindustry.entities.bullet.*;
+ import mindustry.game.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.world.*;
+ 
+@@ -24,6 +26,12 @@ public class Lightning{
+     private static boolean bhit = false;
+     private static int lastSeed = 0;
+ 
++    static{
++        Events.on(ResetEvent.class, e -> {
++            entities.clear();
++        });
++    }
++
+     /** Create a lighting branch at a location. Use Team.derelict to damage everyone. */
+     public static void create(Team team, Color color, float damage, float x, float y, float targetAngle, int length){
+         createLightningInternal(null, lastSeed++, team, color, damage, x, y, targetAngle, length);
 diff --git a/core/src/mindustry/entities/Units.java b/core/src/mindustry/entities/Units.java
 index 184203a9..1b4511ed 100644
 --- a/core/src/mindustry/entities/Units.java
@@ -189,6 +259,24 @@ index 8bd5f4a7..b6c1afa0 100644
       public float trailSpacing = 10f;
  
       public PointBulletType(){
+diff --git a/core/src/mindustry/entities/comp/BuildingComp.java b/core/src/mindustry/entities/comp/BuildingComp.java
+index 8602e87f..87c98f82 100644
+--- a/core/src/mindustry/entities/comp/BuildingComp.java
++++ b/core/src/mindustry/entities/comp/BuildingComp.java
+@@ -56,6 +56,13 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc,
+     static final BuildTeamChangeEvent teamChangeEvent = new BuildTeamChangeEvent();
+     static final BuildDamageEvent bulletDamageEvent = new BuildDamageEvent();
+     static int sleepingEntities = 0;
++
++    static {
++        Events.on(ResetEvent.class, e -> {
++            tmpTiles.clear();
++            tempBuilds.clear();
++        });
++    }
+     
+     @Import float x, y, health, maxHealth;
+     @Import Team team;
 diff --git a/core/src/mindustry/entities/comp/PuddleComp.java b/core/src/mindustry/entities/comp/PuddleComp.java
 index 090a8810..800fa762 100644
 --- a/core/src/mindustry/entities/comp/PuddleComp.java
@@ -244,6 +332,49 @@ index 2e87d6c8..40785ce9 100644
  
          public RadarI(RadarTarget target1, RadarTarget target2, RadarTarget target3, RadarSort sort, int radar, int sortOrder, int output){
              this.target1 = target1;
+diff --git a/core/src/mindustry/world/Block.java b/core/src/mindustry/world/Block.java
+index c1a87f51..ff23d26c 100644
+--- a/core/src/mindustry/world/Block.java
++++ b/core/src/mindustry/world/Block.java
+@@ -21,6 +21,7 @@ import mindustry.entities.*;
+ import mindustry.entities.bullet.*;
+ import mindustry.entities.units.*;
+ import mindustry.game.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.graphics.*;
+ import mindustry.graphics.MultiPacker.*;
+@@ -369,6 +370,13 @@ public class Block extends UnlockableContent implements Senseable{
+     protected static final Seq<Tile> tempTiles = new Seq<>();
+     protected static final Seq<Building> tempBuilds = new Seq<>();
+ 
++    static{
++        Events.on(ResetEvent.class, e -> {
++            tempTiles.clear();
++            tempBuilds.clear();
++        });
++    }
++
+     /** Dump timer ID.*/
+     protected final int timerDump = timers++;
+     /** How often to try dumping items in ticks, e.g. 5 = 12 times/sec*/
+diff --git a/core/src/mindustry/world/Tile.java b/core/src/mindustry/world/Tile.java
+index 9fedd0aa..1b308043 100644
+--- a/core/src/mindustry/world/Tile.java
++++ b/core/src/mindustry/world/Tile.java
+@@ -25,6 +25,12 @@ public class Tile implements Position, QuadTreeObject, Displayable{
+     private static final TilePreChangeEvent preChange = new TilePreChangeEvent();
+     private static final ObjectSet<Building> tileSet = new ObjectSet<>();
+ 
++    static{
++        Events.on(ResetEvent.class, e -> {
++            tileSet.clear();
++        });
++    }
++
+     /** Extra data for very specific blocks. */
+     public byte data;
+     /** Tile entity, usually null. */
 diff --git a/core/src/mindustry/world/blocks/defense/AutoDoor.java b/core/src/mindustry/world/blocks/defense/AutoDoor.java
 index a1cfb086..8c958674 100644
 --- a/core/src/mindustry/world/blocks/defense/AutoDoor.java
@@ -449,6 +580,36 @@ index beb3e79d..f501aa1d 100644
  
      public final int timerCheckMoved = timers ++;
  
+diff --git a/core/src/mindustry/world/blocks/power/PowerGraph.java b/core/src/mindustry/world/blocks/power/PowerGraph.java
+index 11710107..e7efda26 100644
+--- a/core/src/mindustry/world/blocks/power/PowerGraph.java
++++ b/core/src/mindustry/world/blocks/power/PowerGraph.java
+@@ -1,8 +1,10 @@
+ package mindustry.world.blocks.power;
+ 
++import arc.*;
+ import arc.math.*;
+ import arc.struct.*;
+ import arc.util.*;
++import mindustry.game.EventType.*;
+ import mindustry.gen.*;
+ import mindustry.world.consumers.*;
+ 
+@@ -12,6 +14,14 @@ public class PowerGraph{
+     private static final Seq<Building> outArray2 = new Seq<>();
+     private static final IntSet closedSet = new IntSet();
+ 
++    static{
++        Events.on(ResetEvent.class, e -> {
++            queue.clear();
++            outArray1.clear();
++            outArray2.clear();
++        });
++    }
++
+     //do not modify any of these unless you know what you're doing!
+     public final Seq<Building> producers = new Seq<>(false, 16, Building.class);
+     public final Seq<Building> consumers = new Seq<>(false, 16, Building.class);
 diff --git a/core/src/mindustry/world/blocks/power/PowerNode.java b/core/src/mindustry/world/blocks/power/PowerNode.java
 index 582a2246..9e3529a9 100644
 --- a/core/src/mindustry/world/blocks/power/PowerNode.java

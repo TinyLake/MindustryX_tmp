@@ -635,5 +635,5 @@ index 582a2246..9e3529a9 100644
      protected final static ObjectSet<PowerGraph> graphs = new ObjectSet<>();
      /** The maximum range of all power nodes on the map */
 -- 
-2.40.1.windows.1
+2.42.0.windows.2
 

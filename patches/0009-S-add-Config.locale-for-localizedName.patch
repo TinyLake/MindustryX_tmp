@@ -20,5 +20,5 @@ index d544531f..1fb21851 100644
          showConnectMessages = new Config("showConnectMessages", "Whether to display connect/disconnect messages.", true),
          enableVotekick = new Config("enableVotekick", "Whether votekick is enabled.", true),
 -- 
-2.40.1.windows.1
+2.42.0.windows.2
 

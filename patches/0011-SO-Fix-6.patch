@@ -40,5 +40,5 @@ index 94a0de30..036ccf0b 100644
                  && payload.fits(payloadLimit)
                  && (source == this || this.enabled && progress <= 5f);
 -- 
-2.40.1.windows.1
+2.42.0.windows.2
 

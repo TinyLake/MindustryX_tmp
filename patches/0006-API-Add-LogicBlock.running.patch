@@ -5,9 +5,7 @@ Subject: [PATCH] API: Add `LogicBlock.running`
 
 ---
  core/src/mindustry/world/blocks/logic/LogicBlock.java | 5 +++++
- core/src/mindustryX/MindustryXApi.java                | 9 +++++++++
- 2 files changed, 14 insertions(+)
- create mode 100644 core/src/mindustryX/MindustryXApi.java
+ 1 file changed, 5 insertions(+)
 
 diff --git a/core/src/mindustry/world/blocks/logic/LogicBlock.java b/core/src/mindustry/world/blocks/logic/LogicBlock.java
 index 7805e683..38a59465 100644
@@ -43,21 +41,6 @@ index 7805e683..38a59465 100644
              }
          }
  
-diff --git a/core/src/mindustryX/MindustryXApi.java b/core/src/mindustryX/MindustryXApi.java
-new file mode 100644
-index 00000000..95a72f15
---- /dev/null
-+++ b/core/src/mindustryX/MindustryXApi.java
-@@ -0,0 +1,9 @@
-+package mindustryX;
-+
-+import java.lang.annotation.*;
-+
-+@Documented
-+@Retention(RetentionPolicy.SOURCE)
-+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.CONSTRUCTOR})
-+public @interface MindustryXApi{
-+}
 -- 
-2.40.1.windows.1
+2.42.0.windows.2
 

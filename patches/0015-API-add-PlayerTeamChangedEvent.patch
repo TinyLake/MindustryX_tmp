@@ -1,0 +1,58 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: nanmenyangde <nanmenyangde@foxmail.com>
+Date: Sun, 3 Dec 2023 15:55:56 +0800
+Subject: [PATCH] API: add PlayerTeamChangedEvent
+
+---
+ .../src/mindustry/entities/comp/PlayerComp.java |  4 ++++
+ .../events/PlayerTeamChangedEvent.java          | 17 +++++++++++++++++
+ 2 files changed, 21 insertions(+)
+ create mode 100644 core/src/mindustryX/events/PlayerTeamChangedEvent.java
+
+diff --git a/core/src/mindustry/entities/comp/PlayerComp.java b/core/src/mindustry/entities/comp/PlayerComp.java
+index c995d3d9f0cfb8b0bda22026fa1d6dc9bc6a6cfa..c97f45578a47d7ff55fe6e105bee4749ba745121 100644
+--- a/core/src/mindustry/entities/comp/PlayerComp.java
++++ b/core/src/mindustry/entities/comp/PlayerComp.java
+@@ -23,6 +23,7 @@ import mindustry.net.Packets.*;
+ import mindustry.ui.*;
+ import mindustry.world.blocks.storage.*;
+ import mindustry.world.blocks.storage.CoreBlock.*;
++import mindustryX.events.*;
+ 
+ import static mindustry.Vars.*;
+ 
+@@ -186,8 +187,11 @@ abstract class PlayerComp implements UnitController, Entityc, Syncc, Timerc, Dra
+     }
+ 
+     public void team(Team team){
++        Team last = this.team;
+         this.team = team;
+         unit.team(team);
++        //MDTX: PlayerTeamChangeEvent
++        Events.fire(new PlayerTeamChangedEvent(last, self()));
+     }
+ 
+     public void clearUnit(){
+diff --git a/core/src/mindustryX/events/PlayerTeamChangedEvent.java b/core/src/mindustryX/events/PlayerTeamChangedEvent.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..4011f009f9e6adf14887e42d5b76c42ced94e4cb
+--- /dev/null
++++ b/core/src/mindustryX/events/PlayerTeamChangedEvent.java
+@@ -0,0 +1,17 @@
++package mindustryX.events;
++
++import mindustry.game.*;
++import mindustry.gen.*;
++import mindustryX.*;
++
++/** Called after the team of a player changed. */
++@MindustryXApi
++public class PlayerTeamChangedEvent{
++    public final Team previous;
++    public final Player player;
++    public PlayerTeamChangedEvent(Team previous, Player player) {
++        this.previous = previous;
++        this.player = player;
++    }
++}
++

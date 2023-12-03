@@ -9,7 +9,7 @@ Subject: [PATCH] Remove Useless project
  2 files changed, 3 insertions(+), 40 deletions(-)
 
 diff --git a/build.gradle b/build.gradle
-index 84cfbefc..0c774d0c 100644
+index 84cfbefca7ba0af2c492ff86aa0a312549b78e84..0c774d0cc758c78d3c8552146ff90bfe83e9af8f 100644
 --- a/build.gradle
 +++ b/build.gradle
 @@ -103,16 +103,6 @@ allprojects{
@@ -82,7 +82,7 @@ index 84cfbefc..0c774d0c 100644
  }
  
 diff --git a/settings.gradle b/settings.gradle
-index fed0fcf0..fbabdea3 100644
+index fed0fcf07666d4654905a50e341590dccfe9718e..fbabdea3f28a02757a65baef8be6e6c1c8355500 100644
 --- a/settings.gradle
 +++ b/settings.gradle
 @@ -2,7 +2,7 @@ if(JavaVersion.current().ordinal() < JavaVersion.VERSION_16.ordinal()){
@@ -103,6 +103,3 @@ index fed0fcf0..fbabdea3 100644
      }
  }else{
      println("No Android SDK found. Skipping Android module.")
--- 
-2.42.0.windows.2
-

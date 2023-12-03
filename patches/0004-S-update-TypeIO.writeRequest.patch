@@ -8,7 +8,7 @@ Subject: [PATCH] S: update TypeIO.writeRequest
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/core/src/mindustry/io/TypeIO.java b/core/src/mindustry/io/TypeIO.java
-index 21ad470f..54dbc2e2 100644
+index 21ad470fd74bf322e35b33aecf0bf90a5ca73d8c..54dbc2e26d3f307c34cc67f99dccbe4baaa5b0b5 100644
 --- a/core/src/mindustry/io/TypeIO.java
 +++ b/core/src/mindustry/io/TypeIO.java
 @@ -403,8 +403,9 @@ public class TypeIO{
@@ -23,6 +23,3 @@ index 21ad470f..54dbc2e2 100644
          }
      }
  
--- 
-2.42.0.windows.2
-

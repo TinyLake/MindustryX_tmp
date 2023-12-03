@@ -8,7 +8,7 @@ Subject: [PATCH] SO: Early release #Anuken:9018
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/core/src/mindustry/logic/GlobalVars.java b/core/src/mindustry/logic/GlobalVars.java
-index 3354277b..57b30bcd 100644
+index 3354277b130a3f62952734398882c980f883bab6..57b30bcd7bab28592d4970a5fb1fac7f3e41a58a 100644
 --- a/core/src/mindustry/logic/GlobalVars.java
 +++ b/core/src/mindustry/logic/GlobalVars.java
 @@ -27,7 +27,7 @@ public class GlobalVars{
@@ -39,6 +39,3 @@ index 3354277b..57b30bcd 100644
      }
  
      /** @return a piece of content based on its logic ID. This is not equivalent to content ID. */
--- 
-2.42.0.windows.2
-

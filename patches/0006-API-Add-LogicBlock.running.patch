@@ -8,7 +8,7 @@ Subject: [PATCH] API: Add `LogicBlock.running`
  1 file changed, 5 insertions(+)
 
 diff --git a/core/src/mindustry/world/blocks/logic/LogicBlock.java b/core/src/mindustry/world/blocks/logic/LogicBlock.java
-index 7805e683..38a59465 100644
+index 7805e6830b13f5b0b02304d771896b4869591f70..38a59465beefb7e0b000fd82bc1989350974ff2c 100644
 --- a/core/src/mindustry/world/blocks/logic/LogicBlock.java
 +++ b/core/src/mindustry/world/blocks/logic/LogicBlock.java
 @@ -23,6 +23,7 @@ import mindustry.ui.*;
@@ -41,6 +41,3 @@ index 7805e683..38a59465 100644
              }
          }
  
--- 
-2.42.0.windows.2
-

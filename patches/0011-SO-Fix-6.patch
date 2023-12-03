@@ -8,7 +8,7 @@ Subject: [PATCH] SO: Fix #6
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/core/src/mindustry/world/blocks/payloads/PayloadConveyor.java b/core/src/mindustry/world/blocks/payloads/PayloadConveyor.java
-index 94a0de30..036ccf0b 100644
+index 94a0de3071c6c486fad37876edc5004283756150..036ccf0b629c45ee75cd60294be91e5e3b745124 100644
 --- a/core/src/mindustry/world/blocks/payloads/PayloadConveyor.java
 +++ b/core/src/mindustry/world/blocks/payloads/PayloadConveyor.java
 @@ -11,6 +11,7 @@ import mindustry.entities.*;
@@ -39,6 +39,3 @@ index 94a0de30..036ccf0b 100644
              return this.item == null
                  && payload.fits(payloadLimit)
                  && (source == this || this.enabled && progress <= 5f);
--- 
-2.42.0.windows.2
-

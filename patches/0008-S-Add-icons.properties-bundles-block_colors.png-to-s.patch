@@ -10,7 +10,7 @@ Subject: [PATCH] S: Add icons.properties,bundles,block_colors.png to server
  2 files changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/server/build.gradle b/server/build.gradle
-index 7359fdac..8a35079e 100644
+index 7359fdac3cb101aec25a7be9e8b9813ed1afd547..8a35079e902ab916d93e0942a17aca753fe813a1 100644
 --- a/server/build.gradle
 +++ b/server/build.gradle
 @@ -34,18 +34,18 @@ task dist(type: Jar, dependsOn: configurations.runtimeClasspath){
@@ -45,7 +45,7 @@ index 7359fdac..8a35079e 100644
      manifest{
          attributes 'Main-Class': project.mainClassName
 diff --git a/server/src/mindustry/server/ServerLauncher.java b/server/src/mindustry/server/ServerLauncher.java
-index 1aea11b2..167be582 100644
+index 1aea11b2cc877ef9a35280575e6419d9fab16f01..167be582ef387471f31c252a7732881d1d22ac87 100644
 --- a/server/src/mindustry/server/ServerLauncher.java
 +++ b/server/src/mindustry/server/ServerLauncher.java
 @@ -41,7 +41,7 @@ public class ServerLauncher implements ApplicationListener{
@@ -57,6 +57,3 @@ index 1aea11b2..167be582 100644
          headless = true;
  
          Vars.loadSettings();
--- 
-2.42.0.windows.2
-

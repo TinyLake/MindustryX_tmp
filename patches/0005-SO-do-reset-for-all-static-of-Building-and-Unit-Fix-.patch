@@ -30,7 +30,7 @@ Subject: [PATCH] SO: do reset for all `static` of `Building` and `Unit` Fix #3
  23 files changed, 166 insertions(+)
 
 diff --git a/core/src/mindustry/ai/RtsAI.java b/core/src/mindustry/ai/RtsAI.java
-index 6b37777c..3a36884b 100644
+index 6b37777c29876574b7eef5d3986c4e9ae8563c59..3a36884bf5f541f74f4323f889c5001b2f1144b5 100644
 --- a/core/src/mindustry/ai/RtsAI.java
 +++ b/core/src/mindustry/ai/RtsAI.java
 @@ -51,6 +51,11 @@ public class RtsAI{
@@ -46,7 +46,7 @@ index 6b37777c..3a36884b 100644
  
      public RtsAI(TeamData data){
 diff --git a/core/src/mindustry/ai/types/CargoAI.java b/core/src/mindustry/ai/types/CargoAI.java
-index 8fb522e9..92b43463 100644
+index 8fb522e900c0af6c85527e8bd3e214b7f26771a3..92b4346360d5b19c25449d41ab931314d1fd29c2 100644
 --- a/core/src/mindustry/ai/types/CargoAI.java
 +++ b/core/src/mindustry/ai/types/CargoAI.java
 @@ -1,9 +1,11 @@
@@ -75,7 +75,7 @@ index 8fb522e9..92b43463 100644
      public static float transferRange = 20f, moveRange = 6f, moveSmoothing = 20f;
  
 diff --git a/core/src/mindustry/core/Logic.java b/core/src/mindustry/core/Logic.java
-index e722afb8..deb42a17 100644
+index e722afb8f1d368d3068d9d8510f9fdda2ac27844..deb42a17d4ab4d0b39faaf9b785ed431aff9fbfa 100644
 --- a/core/src/mindustry/core/Logic.java
 +++ b/core/src/mindustry/core/Logic.java
 @@ -248,6 +248,10 @@ public class Logic implements ApplicationListener{
@@ -90,7 +90,7 @@ index e722afb8..deb42a17 100644
          Time.clear();
          Events.fire(new ResetEvent());
 diff --git a/core/src/mindustry/entities/Damage.java b/core/src/mindustry/entities/Damage.java
-index f36f66df..5b238e9f 100644
+index f36f66df87a4e3149acc21a90398408e51352232..5b238e9f85eca098a791c656866f555e46eb13ca 100644
 --- a/core/src/mindustry/entities/Damage.java
 +++ b/core/src/mindustry/entities/Damage.java
 @@ -37,6 +37,16 @@ public class Damage{
@@ -111,7 +111,7 @@ index f36f66df..5b238e9f 100644
          builds.clear();
          indexer.eachBlock(null, x, y, range, build -> build.team != team, build -> {
 diff --git a/core/src/mindustry/entities/Lightning.java b/core/src/mindustry/entities/Lightning.java
-index 76bbcb82..8fb60503 100644
+index 76bbcb82b5895ac1b38a6eb15354e9213388f7da..8fb6050396730e0c734e760986882b4e12bbcad5 100644
 --- a/core/src/mindustry/entities/Lightning.java
 +++ b/core/src/mindustry/entities/Lightning.java
 @@ -1,5 +1,6 @@
@@ -143,7 +143,7 @@ index 76bbcb82..8fb60503 100644
      public static void create(Team team, Color color, float damage, float x, float y, float targetAngle, int length){
          createLightningInternal(null, lastSeed++, team, color, damage, x, y, targetAngle, length);
 diff --git a/core/src/mindustry/entities/Units.java b/core/src/mindustry/entities/Units.java
-index 184203a9..1b4511ed 100644
+index 184203a9b7586335452a6f345f3fd60670ecc599..1b4511ed5eba6b78d62ca3b1d4ce5e80893c878e 100644
 --- a/core/src/mindustry/entities/Units.java
 +++ b/core/src/mindustry/entities/Units.java
 @@ -8,6 +8,7 @@ import arc.util.*;
@@ -169,7 +169,7 @@ index 184203a9..1b4511ed 100644
      private static boolean anyEntityGround;
      private static float aeX, aeY, aeW, aeH;
 diff --git a/core/src/mindustry/entities/abilities/ForceFieldAbility.java b/core/src/mindustry/entities/abilities/ForceFieldAbility.java
-index 81264ac0..d6a07484 100644
+index 81264ac05cd8244066bb2f51aea71da0953ba08c..d6a07484299203796a3db5cf4b8d7166a183e2f8 100644
 --- a/core/src/mindustry/entities/abilities/ForceFieldAbility.java
 +++ b/core/src/mindustry/entities/abilities/ForceFieldAbility.java
 @@ -1,5 +1,6 @@
@@ -201,7 +201,7 @@ index 81264ac0..d6a07484 100644
          if(trait.team != paramUnit.team && trait.type.absorbable && Intersector.isInRegularPolygon(paramField.sides, paramUnit.x, paramUnit.y, realRad, paramField.rotation, trait.x(), trait.y()) && paramUnit.shield > 0){
              trait.absorb();
 diff --git a/core/src/mindustry/entities/abilities/ShieldArcAbility.java b/core/src/mindustry/entities/abilities/ShieldArcAbility.java
-index 548a1238..13b26515 100644
+index 548a123899a8a86ba797f318f2b2bae8845293e7..13b265153a060fe6be779a5bc1d1f53cd841e036 100644
 --- a/core/src/mindustry/entities/abilities/ShieldArcAbility.java
 +++ b/core/src/mindustry/entities/abilities/ShieldArcAbility.java
 @@ -1,5 +1,6 @@
@@ -232,7 +232,7 @@ index 548a1238..13b26515 100644
      private static final Cons<Bullet> shieldConsumer = b -> {
          if(b.team != paramUnit.team && b.type.absorbable && paramField.data > 0 &&
 diff --git a/core/src/mindustry/entities/bullet/PointBulletType.java b/core/src/mindustry/entities/bullet/PointBulletType.java
-index 8bd5f4a7..b6c1afa0 100644
+index 8bd5f4a779172d5134c37b85bedf53baa9512b36..b6c1afa09eecbaa4d3951079da1289eb10f2fb55 100644
 --- a/core/src/mindustry/entities/bullet/PointBulletType.java
 +++ b/core/src/mindustry/entities/bullet/PointBulletType.java
 @@ -1,15 +1,23 @@
@@ -260,7 +260,7 @@ index 8bd5f4a7..b6c1afa0 100644
  
       public PointBulletType(){
 diff --git a/core/src/mindustry/entities/comp/BuildingComp.java b/core/src/mindustry/entities/comp/BuildingComp.java
-index 8602e87f..87c98f82 100644
+index 8602e87f1a074d4d0a3770acbca28022e55b27f9..87c98f82b01306565834ee2a1acbea4e4c509ee4 100644
 --- a/core/src/mindustry/entities/comp/BuildingComp.java
 +++ b/core/src/mindustry/entities/comp/BuildingComp.java
 @@ -56,6 +56,13 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc,
@@ -278,7 +278,7 @@ index 8602e87f..87c98f82 100644
      @Import float x, y, health, maxHealth;
      @Import Team team;
 diff --git a/core/src/mindustry/entities/comp/PuddleComp.java b/core/src/mindustry/entities/comp/PuddleComp.java
-index 090a8810..800fa762 100644
+index 090a88106077f3a802480a87d0e97fa0da0058af..800fa7628f4cf88cdd45378002034acd6a4c0b8a 100644
 --- a/core/src/mindustry/entities/comp/PuddleComp.java
 +++ b/core/src/mindustry/entities/comp/PuddleComp.java
 @@ -1,5 +1,6 @@
@@ -309,7 +309,7 @@ index 090a8810..800fa762 100644
          if(unit.isGrounded() && !unit.hovering){
              unit.hitbox(rect2);
 diff --git a/core/src/mindustry/logic/LExecutor.java b/core/src/mindustry/logic/LExecutor.java
-index 2e87d6c8..40785ce9 100644
+index 2e87d6c84bf85b4fb696aa2d162f5d55288c6655..40785ce9dd106cca6b94c633bb79d195def92c37 100644
 --- a/core/src/mindustry/logic/LExecutor.java
 +++ b/core/src/mindustry/logic/LExecutor.java
 @@ -14,6 +14,7 @@ import mindustry.core.*;
@@ -333,7 +333,7 @@ index 2e87d6c8..40785ce9 100644
          public RadarI(RadarTarget target1, RadarTarget target2, RadarTarget target3, RadarSort sort, int radar, int sortOrder, int output){
              this.target1 = target1;
 diff --git a/core/src/mindustry/world/Block.java b/core/src/mindustry/world/Block.java
-index c1a87f51..ff23d26c 100644
+index c1a87f510c523ff133ae06ddff8482ce5cdbcad8..ff23d26ccb4f5c03e89dfca6ba26d557119a4787 100644
 --- a/core/src/mindustry/world/Block.java
 +++ b/core/src/mindustry/world/Block.java
 @@ -21,6 +21,7 @@ import mindustry.entities.*;
@@ -359,7 +359,7 @@ index c1a87f51..ff23d26c 100644
      protected final int timerDump = timers++;
      /** How often to try dumping items in ticks, e.g. 5 = 12 times/sec*/
 diff --git a/core/src/mindustry/world/Tile.java b/core/src/mindustry/world/Tile.java
-index 9fedd0aa..1b308043 100644
+index 9fedd0aa27c0c6fe6768a3c68023a404966d44b3..1b308043e08879f9d8f9d2f0ebfd54661319c387 100644
 --- a/core/src/mindustry/world/Tile.java
 +++ b/core/src/mindustry/world/Tile.java
 @@ -25,6 +25,12 @@ public class Tile implements Position, QuadTreeObject, Displayable{
@@ -376,7 +376,7 @@ index 9fedd0aa..1b308043 100644
      public byte data;
      /** Tile entity, usually null. */
 diff --git a/core/src/mindustry/world/blocks/defense/AutoDoor.java b/core/src/mindustry/world/blocks/defense/AutoDoor.java
-index a1cfb086..8c958674 100644
+index a1cfb08619638a905804578d563b763b2d5856fc..8c958674c6255b8d4f6ebe73b593acffe79687c8 100644
 --- a/core/src/mindustry/world/blocks/defense/AutoDoor.java
 +++ b/core/src/mindustry/world/blocks/defense/AutoDoor.java
 @@ -1,5 +1,6 @@
@@ -407,7 +407,7 @@ index a1cfb086..8c958674 100644
  
      public final int timerToggle = timers++;
 diff --git a/core/src/mindustry/world/blocks/defense/BaseShield.java b/core/src/mindustry/world/blocks/defense/BaseShield.java
-index 32bc077e..b6c57d5f 100644
+index 32bc077e8f1beb2c073ee522275cabea157d91cf..b6c57d5f7c560c6eee81ddb3cd5b085db36eb860 100644
 --- a/core/src/mindustry/world/blocks/defense/BaseShield.java
 +++ b/core/src/mindustry/world/blocks/defense/BaseShield.java
 @@ -1,5 +1,6 @@
@@ -439,7 +439,7 @@ index 32bc077e..b6c57d5f 100644
      protected static final Cons<Bullet> bulletConsumer = bullet -> {
          if(bullet.team != paramBuild.team && bullet.type.absorbable && bullet.within(paramBuild, paramBuild.radius())){
 diff --git a/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java b/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java
-index 43548a63..4be828b5 100644
+index 43548a63bc715d62de451994e2c13f3bc5f5dc21..4be828b53c8fe93a344425135372927cc6c973e8 100644
 --- a/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java
 +++ b/core/src/mindustry/world/blocks/defense/DirectionalForceProjector.java
 @@ -1,5 +1,6 @@
@@ -471,7 +471,7 @@ index 43548a63..4be828b5 100644
          if(b.team != paramEntity.team && b.type.absorbable){
              //just in case
 diff --git a/core/src/mindustry/world/blocks/defense/Door.java b/core/src/mindustry/world/blocks/defense/Door.java
-index 3fa4732e..ea77a052 100644
+index 3fa4732ebe3581c835dc5d7f77efb45f4986059d..ea77a052c2041e71fa38bb9c0cd68b65e5d34e27 100644
 --- a/core/src/mindustry/world/blocks/defense/Door.java
 +++ b/core/src/mindustry/world/blocks/defense/Door.java
 @@ -1,5 +1,6 @@
@@ -502,7 +502,7 @@ index 3fa4732e..ea77a052 100644
      public final int timerToggle = timers++;
      public Effect openfx = Fx.dooropen;
 diff --git a/core/src/mindustry/world/blocks/defense/ForceProjector.java b/core/src/mindustry/world/blocks/defense/ForceProjector.java
-index 74f0fd48..078fc813 100644
+index 74f0fd4860644903c3ce81318681596f0a60d317..078fc8139ffd388be2fb8c290273591709993860 100644
 --- a/core/src/mindustry/world/blocks/defense/ForceProjector.java
 +++ b/core/src/mindustry/world/blocks/defense/ForceProjector.java
 @@ -47,6 +47,12 @@ public class ForceProjector extends Block{
@@ -519,7 +519,7 @@ index 74f0fd48..078fc813 100644
          if(bullet.team != paramEntity.team && bullet.type.absorbable && Intersector.isInRegularPolygon(((ForceProjector)(paramEntity.block)).sides, paramEntity.x, paramEntity.y, paramEntity.realRadius(), ((ForceProjector)(paramEntity.block)).shieldRotation, bullet.x, bullet.y)){
              bullet.absorb();
 diff --git a/core/src/mindustry/world/blocks/distribution/DirectionBridge.java b/core/src/mindustry/world/blocks/distribution/DirectionBridge.java
-index 97e38584..edce0a4c 100644
+index 97e38584f76623663502861f13cc151c068a87e4..edce0a4c7959b23c6ea85c640487cb431b38c75c 100644
 --- a/core/src/mindustry/world/blocks/distribution/DirectionBridge.java
 +++ b/core/src/mindustry/world/blocks/distribution/DirectionBridge.java
 @@ -1,5 +1,6 @@
@@ -550,7 +550,7 @@ index 97e38584..edce0a4c 100644
  
      public @Load("@-bridge") TextureRegion bridgeRegion;
 diff --git a/core/src/mindustry/world/blocks/distribution/ItemBridge.java b/core/src/mindustry/world/blocks/distribution/ItemBridge.java
-index beb3e79d..f501aa1d 100644
+index beb3e79d02f5a271b5e4a3c9c2b70edef5d224aa..f501aa1d4d0989b408b4705c95f62f5b702e7add 100644
 --- a/core/src/mindustry/world/blocks/distribution/ItemBridge.java
 +++ b/core/src/mindustry/world/blocks/distribution/ItemBridge.java
 @@ -1,5 +1,6 @@
@@ -581,7 +581,7 @@ index beb3e79d..f501aa1d 100644
      public final int timerCheckMoved = timers ++;
  
 diff --git a/core/src/mindustry/world/blocks/power/PowerGraph.java b/core/src/mindustry/world/blocks/power/PowerGraph.java
-index 11710107..e7efda26 100644
+index 11710107ebb1ca9310d32200260b9c55931e7da1..e7efda269d7ccfa6d36500f4130bdcac0d6ff7ce 100644
 --- a/core/src/mindustry/world/blocks/power/PowerGraph.java
 +++ b/core/src/mindustry/world/blocks/power/PowerGraph.java
 @@ -1,8 +1,10 @@
@@ -611,7 +611,7 @@ index 11710107..e7efda26 100644
      public final Seq<Building> producers = new Seq<>(false, 16, Building.class);
      public final Seq<Building> consumers = new Seq<>(false, 16, Building.class);
 diff --git a/core/src/mindustry/world/blocks/power/PowerNode.java b/core/src/mindustry/world/blocks/power/PowerNode.java
-index 582a2246..9e3529a9 100644
+index 582a2246a188ffda5f00213ea2e49b304c7c5474..9e3529a997e24591165c1c8c3c98849af3681e61 100644
 --- a/core/src/mindustry/world/blocks/power/PowerNode.java
 +++ b/core/src/mindustry/world/blocks/power/PowerNode.java
 @@ -12,6 +12,7 @@ import mindustry.annotations.Annotations.*;
@@ -634,6 +634,3 @@ index 582a2246..9e3529a9 100644
      protected static int returnInt = 0;
      protected final static ObjectSet<PowerGraph> graphs = new ObjectSet<>();
      /** The maximum range of all power nodes on the map */
--- 
-2.42.0.windows.2
-

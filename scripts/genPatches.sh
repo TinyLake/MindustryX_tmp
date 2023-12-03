@@ -2,5 +2,5 @@
 
 cd work/ || exit 1
 rm ../patches/*
-git format-patch --zero-commit -N -o ../patches base --
+git format-patch --full-index --no-signature --zero-commit -N -o ../patches base --
 cd ../ && git add patches/

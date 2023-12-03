@@ -10,7 +10,7 @@ Subject: [PATCH] API: @MindustryXApi
 
 diff --git a/core/src/mindustryX/MindustryXApi.java b/core/src/mindustryX/MindustryXApi.java
 new file mode 100644
-index 00000000..88becf78
+index 0000000000000000000000000000000000000000..88becf782ea6460efd11d3babfe878adae09c9d6
 --- /dev/null
 +++ b/core/src/mindustryX/MindustryXApi.java
 @@ -0,0 +1,9 @@
@@ -23,6 +23,3 @@ index 00000000..88becf78
 +@Target({ElementType.TYPE, ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.METHOD})
 +public @interface MindustryXApi{
 +}
--- 
-2.42.0.windows.2
-

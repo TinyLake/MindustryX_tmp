@@ -8,7 +8,7 @@ Subject: [PATCH] S: add `Config.locale` for localizedName
  1 file changed, 1 insertion(+)
 
 diff --git a/core/src/mindustry/net/Administration.java b/core/src/mindustry/net/Administration.java
-index d544531f..1fb21851 100644
+index d544531fac41023e5d71ddcbdabb493118dfb35e..1fb21851e5c95530cf549d9a24e3a353c2b1dd7a 100644
 --- a/core/src/mindustry/net/Administration.java
 +++ b/core/src/mindustry/net/Administration.java
 @@ -488,6 +488,7 @@ public class Administration{
@@ -19,6 +19,3 @@ index d544531f..1fb21851 100644
          autoUpdate = new Config("autoUpdate", "Whether to auto-update and exit when a new bleeding-edge update arrives.", false),
          showConnectMessages = new Config("showConnectMessages", "Whether to display connect/disconnect messages.", true),
          enableVotekick = new Config("enableVotekick", "Whether votekick is enabled.", true),
--- 
-2.42.0.windows.2
-

@@ -12,7 +12,7 @@ Subject: [PATCH] API: add LogicAssembledEvent
  create mode 100644 core/src/mindustryX/events/LogicAssembledEvent.java
 
 diff --git a/core/src/mindustry/logic/LParser.java b/core/src/mindustry/logic/LParser.java
-index 6f65e998..32133826 100644
+index 6f65e9981f2291d1c892c23f3ec8603aec8e3a4c..32133826223d3e4fe1be991c8abd3bc23d720779 100644
 --- a/core/src/mindustry/logic/LParser.java
 +++ b/core/src/mindustry/logic/LParser.java
 @@ -5,6 +5,8 @@ import arc.util.*;
@@ -34,7 +34,7 @@ index 6f65e998..32133826 100644
                  }
                  line ++;
 diff --git a/core/src/mindustry/logic/LStatements.java b/core/src/mindustry/logic/LStatements.java
-index 3c57c9a2..41960d64 100644
+index 3c57c9a254b1016fe97ebea04b9c01dc1094daa0..41960d64a49a4706767a433bea02bbabde069633 100644
 --- a/core/src/mindustry/logic/LStatements.java
 +++ b/core/src/mindustry/logic/LStatements.java
 @@ -18,6 +18,7 @@ import mindustry.logic.LogicFx.*;
@@ -63,7 +63,7 @@ index 3c57c9a2..41960d64 100644
          @Override
          public void build(Table table){
 diff --git a/core/src/mindustry/world/blocks/logic/LogicBlock.java b/core/src/mindustry/world/blocks/logic/LogicBlock.java
-index 38a59465..fdeb76f6 100644
+index 38a59465beefb7e0b000fd82bc1989350974ff2c..fdeb76f662cdd2feea757d2a4ec7490e4d9af5ea 100644
 --- a/core/src/mindustry/world/blocks/logic/LogicBlock.java
 +++ b/core/src/mindustry/world/blocks/logic/LogicBlock.java
 @@ -1,5 +1,6 @@
@@ -92,7 +92,7 @@ index 38a59465..fdeb76f6 100644
                      //handle malformed code and replace it with nothing
 diff --git a/core/src/mindustryX/events/LogicAssembledEvent.java b/core/src/mindustryX/events/LogicAssembledEvent.java
 new file mode 100644
-index 00000000..4db97d52
+index 0000000000000000000000000000000000000000..4db97d52e70a6cd0b53346d86461b3677da44138
 --- /dev/null
 +++ b/core/src/mindustryX/events/LogicAssembledEvent.java
 @@ -0,0 +1,21 @@
@@ -117,6 +117,3 @@ index 00000000..4db97d52
 +        this.assembler = assembler;
 +    }
 +}
--- 
-2.42.0.windows.2
-

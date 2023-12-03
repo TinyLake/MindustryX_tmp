@@ -11,7 +11,7 @@ Subject: [PATCH] API: add SendPacketEvent
  create mode 100644 core/src/mindustryX/events/SendPacketEvent.java
 
 diff --git a/core/src/mindustry/net/ArcNetProvider.java b/core/src/mindustry/net/ArcNetProvider.java
-index 87a16f6a..c9ed6832 100644
+index 87a16f6a52b12ebe06c0a39c96fbba2773066636..c9ed683299dda52d1cd793a6db6fbd58dd93ebfe 100644
 --- a/core/src/mindustry/net/ArcNetProvider.java
 +++ b/core/src/mindustry/net/ArcNetProvider.java
 @@ -15,6 +15,7 @@ import mindustry.game.EventType.*;
@@ -39,7 +39,7 @@ index 87a16f6a..c9ed6832 100644
                  if(reliable){
                      connection.sendTCP(object);
 diff --git a/core/src/mindustry/net/Net.java b/core/src/mindustry/net/Net.java
-index ef69c392..6f9b8f9b 100644
+index ef69c392b08de46d8994610b3ffb5ebdd64ab41a..6f9b8f9b50079b42f7762c8ee2b1101394b54e33 100644
 --- a/core/src/mindustry/net/Net.java
 +++ b/core/src/mindustry/net/Net.java
 @@ -9,6 +9,7 @@ import mindustry.game.EventType.*;
@@ -74,7 +74,7 @@ index ef69c392..6f9b8f9b 100644
          }
 diff --git a/core/src/mindustryX/events/SendPacketEvent.java b/core/src/mindustryX/events/SendPacketEvent.java
 new file mode 100644
-index 00000000..11e0817d
+index 0000000000000000000000000000000000000000..11e0817d8d2f2fc95cb40027660372f6662b9b6b
 --- /dev/null
 +++ b/core/src/mindustryX/events/SendPacketEvent.java
 @@ -0,0 +1,33 @@
@@ -111,6 +111,3 @@ index 00000000..11e0817d
 +        return inst.isCancelled;
 +    }
 +}
--- 
-2.42.0.windows.2
-

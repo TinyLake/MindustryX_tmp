@@ -8,7 +8,7 @@ Subject: [PATCH] SO: improve ControlPathfinder.java (limit memory use)
  1 file changed, 18 insertions(+), 3 deletions(-)
 
 diff --git a/core/src/mindustry/ai/ControlPathfinder.java b/core/src/mindustry/ai/ControlPathfinder.java
-index 4ff9f7e3..2a3ce7bf 100644
+index 4ff9f7e384f50411470de468170f8b02db2af824..2a3ce7bf1d9f327cb866ab349d97d9e613f29f11 100644
 --- a/core/src/mindustry/ai/ControlPathfinder.java
 +++ b/core/src/mindustry/ai/ControlPathfinder.java
 @@ -13,6 +13,10 @@ import mindustry.game.*;
@@ -75,6 +75,3 @@ index 4ff9f7e3..2a3ce7bf 100644
                          }
                      }
  
--- 
-2.42.0.windows.2
-

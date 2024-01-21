@@ -1,0 +1,53 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: way-zer <himc.wicp@gmail.com>
+Date: Sat, 20 Jan 2024 15:19:36 +0800
+Subject: [PATCH] fix arc version
+
+---
+ build.gradle      | 8 ++++----
+ gradle.properties | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/build.gradle b/build.gradle
+index 21fc48cc78893299ddc290a808edb8d9996f46b7..6e8d5713011ecd4ac95f28df86dcf1e1553dc6fc 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -16,8 +16,8 @@ buildscript{
+     }
+ 
+     dependencies{
+-        classpath "com.github.Anuken.Arc:packer:$arcHash"
+-        classpath "com.github.Anuken.Arc:arc-core:$arcHash"
++        classpath "com.github.anuken.Arc:packer:$arcHash"
++        classpath "com.github.anuken.Arc:arc-core:$arcHash"
+     }
+ }
+ 
+@@ -58,7 +58,7 @@ allprojects{
+             }else{
+                 //skip to last submodule
+                 if(name.contains(':')) name = name.split(':').last()
+-                return "com.github.Anuken.Arc:$name:${getArcHash()}"
++                return "com.github.anuken.Arc:$name:${getArcHash()}"
+             }
+         }
+ 
+@@ -391,7 +391,7 @@ project(":annotations"){
+ 
+     dependencies{
+         implementation 'com.squareup:javapoet:1.12.1'
+-        implementation "com.github.Anuken.Arc:arc-core:$arcHash"
++        implementation "com.github.anuken.Arc:arc-core:$arcHash"
+     }
+ }
+ 
+diff --git a/gradle.properties b/gradle.properties
+index 0ee7c648df1b9844d337d243efe441c0b598afaf..570059c3407dd628532bafa39bef9aecbd995565 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -25,4 +25,4 @@ org.gradle.caching=true
+ #used for slow jitpack builds; TODO see if this actually works
+ org.gradle.internal.http.socketTimeout=100000
+ org.gradle.internal.http.connectionTimeout=100000
+-archash=152e49944a
++archash=v146
